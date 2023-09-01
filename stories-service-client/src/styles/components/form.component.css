@@ -1,0 +1,43 @@
+.form__component {
+    display: flex;
+    flex-direction: column;
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 0px;
+    box-shadow: 0px 0px 50px #000;
+    padding: 20px;
+    padding-top: 0;
+    border-radius: 5px;
+}
+
+.form__component input {
+    margin-top: 50px;
+    border: none;
+    border-bottom: 1px solid #000;
+    outline: none;
+    font-size: 20px;
+}
+
+.form__component button {
+    font-size: 20px;
+    border: none;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #000;
+    color: #fff;
+    border-radius: 5px;
+    margin-top: 70px;
+    cursor: pointer;
+}
+
+.form__component-error-message {
+    display: block;
+    margin: 0 auto;
+    margin-top: 50px;
+    max-width: 800px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: 1px solid #e00000;
+    text-align: center;
+}

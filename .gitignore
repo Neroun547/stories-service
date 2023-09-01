@@ -1,0 +1,94 @@
+# compiled output
+/dist
+/node_modules
+/stories/*
+
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# OS
+.DS_Store
+
+# Tests
+/coverage
+/.nyc_output
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+.DS_Store
+dist
+dist-ssr
+coverage
+*.local
+
+/cypress/videos/
+/cypress/screenshots/
+
+# Editor directories and files
+.vscode/extensions.json
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Logs
+stories-service-client/logs
+stories-service-client/*.log
+stories-service-client/npm-debug.log*
+stories-service-client/yarn-debug.log*
+stories-service-client/yarn-error.log*
+stories-service-client/pnpm-debug.log*
+stories-service-client/lerna-debug.log*
+
+stories-service-client/node_modules
+stories-service-client/.DS_Store
+stories-service-client/dist
+stories-service-client/dist-ssr
+stories-service-client/coverage
+stories-service-client*.local
+
+stories-service-client/cypress/videos/
+stories-service-client/cypress/screenshots/
+
+# Editor directories and files
+stories-service-client/.vscode/extensions.json
+stories-service-client/!.vscode/extensions.json
+stories-service-client/.idea
+stories-service-client/*.suo
+stories-service-client/*.ntvs*
+stories-service-client/*.njsproj
+stories-service-client/*.sln
+stories-service-client/*.sw?
