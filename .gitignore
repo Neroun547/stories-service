@@ -92,3 +92,5 @@ stories-service-client/*.ntvs*
 stories-service-client/*.njsproj
 stories-service-client/*.sln
 stories-service-client/*.sw?
+
+stories-service-client/public/avatars/*

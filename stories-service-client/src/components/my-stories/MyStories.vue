@@ -13,11 +13,16 @@
     <div v-for="story in stories" class="wrapper__my-stories-item">
       <h1 class="wrapper__my-stories-item-title">{{story.title}}</h1>
       <h3 class="wrapper__my-stories-item-theme">Theme: {{story.theme}}</h3>
-      <div class="wrapper__my-stories-item-buttons">
-        <button class="wrapper__my-stories-item-delete-btn" @click="deleteStoryByHash(story.story_hash)">Delete</button>
-        <RouterLink :to="'/stories/' + story.story_hash">
-          <button class="wrapper__my-stories-item-read-btn">Read</button>
-        </RouterLink>
+      <div class="wrapper__my-stories-item-footer">
+        <div>
+          <h5>{{story.created_at}}</h5>
+        </div>
+        <div class="wrapper__my-stories-item-footer-buttons">
+          <button class="wrapper__my-stories-item-delete-btn" @click="deleteStoryByHash(story.story_hash)">Delete</button>
+          <RouterLink :to="'/stories/' + story.story_hash">
+            <button class="wrapper__my-stories-item-read-btn">Read</button>
+          </RouterLink>
+        </div>
       </div>
     </div>
   </div>
@@ -80,10 +85,16 @@
   .wrapper__my-stories-item-theme {
     text-align: center;
   }
-  .wrapper__my-stories-item-buttons {
+  .wrapper__my-stories-item-footer {
     margin-top: 40px;
     display: flex;
-    justify-content: end;
+    justify-content: space-between;
+  }
+  .wrapper__my-stories-item-footer-buttons {
+    display: flex;
+    max-width: 300px;
+    justify-content: space-between;
+    align-items: center;
   }
   .wrapper__my-stories-item-read-btn {
     display: block;

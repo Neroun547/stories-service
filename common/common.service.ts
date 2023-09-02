@@ -3,8 +3,8 @@ import { createHmac } from "crypto";
 
 @Injectable()
 export class CommonService {
-    generateRandomHash(dataToHash: string) {
-        const hmac = createHmac("sha512", process.env.HASH_STORY_SECRET);
+    generateRandomHash(dataToHash: string, hashSecret: string) {
+        const hmac = createHmac("sha512", hashSecret);
 
         hmac.update(dataToHash);
 

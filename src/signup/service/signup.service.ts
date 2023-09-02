@@ -26,7 +26,8 @@ export class SignupService {
             username: user.username,
             email: user.email,
             name: user.name,
-            password: passwordHash
+            password: passwordHash,
+            avatar: null
         });
     }
 }

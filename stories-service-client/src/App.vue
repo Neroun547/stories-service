@@ -13,9 +13,10 @@ import "./styles/main.css";
         <RouterLink to="/my-stories">My stories</RouterLink>
         <RouterLink to="/my-subscribes">My subscribes</RouterLink>
         <RouterLink to="/profile-settings">
-          <img src="../public/profile.png" alt="Profile" class="profile-link">
+          <img :src="'../public/avatars/' + avatar" alt="Profile" class="profile-link" v-if="avatar">
+          <img src="../public/profile.png" alt="Profile" class="profile-link" v-if="!avatar">
         </RouterLink>
-        <button @click="exit">Exit</button>
+        <button @click="exit" class="exit-btn">Exit</button>
       </nav>
       <nav v-if="!auth">
         <RouterLink to="/">Main</RouterLink>
@@ -33,7 +34,8 @@ import "./styles/main.css";
   export default {
     data () {
       return {
-        auth: false
+        auth: false,
+        avatar: ""
       }
     },
     methods: {
@@ -44,11 +46,14 @@ import "./styles/main.css";
       }
     },
     async beforeMount() {
+
         if(!localStorage.getItem("authToken")) {
           this.auth = false
         } else {
           try {
-            const response = await this.axios.get("/auth");
+            const user = (await this.axios.get("/auth/user-info")).data;
+
+            this.avatar = user.avatar;
 
             this.auth = true;
           } catch (e) {
@@ -60,6 +65,9 @@ import "./styles/main.css";
 </script>
 
 <style scoped>
+  .exit-btn {
+    cursor: pointer;
+  }
   .wrapper__nav {
     display: flex;
     justify-content: center;

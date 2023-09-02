@@ -14,7 +14,9 @@ export class AuthController {
 
     @Post()
     async auth(@Body() body: AuthDto) {
-        return { token: await this.authService.auth(body) };
+        const { token, avatar } = await this.authService.auth(body);
+
+        return { token: token, avatar: avatar };
     }
 
     @UseGuards(AuthGuard)

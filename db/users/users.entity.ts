@@ -17,4 +17,7 @@ export class Users implements UsersInterface {
 
     @Property()
     password: string;
+
+    @Property()
+    avatar: string;
 }

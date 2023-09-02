@@ -14,7 +14,10 @@
         <h3 class="wrapper__stories-item-theme">{{item.theme}}</h3>
 
         <footer>
-          <h4 class="wrapper__stories-item-author">Author: {{item.author.username}}</h4>
+          <div class="wrapper__stories-item-author-date">
+            <h4 class="wrapper__stories-item-author">Author: {{item.author.username}}</h4>
+            <span>{{item.created_at}}</span>
+          </div>
           <button class="wrapper__stories-item-read-btn">Read</button>
         </footer>
       </div>
@@ -35,7 +38,7 @@
       async searchStories(e) {
         e.preventDefault();
 
-
+        this.stories = (await this.axios.get("/stories/search-by-theme-or-title/" + this.themeOrTitle.replaceAll(" ", "") + "/?count=5&skip=0")).data;
       }
     },
     async mounted() {

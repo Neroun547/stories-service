@@ -21,6 +21,15 @@ export class StoriesController {
         return await this.storiesService.getStoriesAndAuthors(count, skip);
     }
 
+    @Get("search-by-theme-or-title/:themeOrTitle")
+    async getStoriesByTitleOrTheme(
+        @Param("themeOrTitle") themeOrTitle: string,
+        @Query("count", new ParseIntPipe()) count: number,
+        @Query("skip", new ParseIntPipe()) skip: number
+    ) {
+        return await this.storiesService.getStoriesByThemeOrTitle(themeOrTitle, count, skip);
+    }
+
     @UseGuards(AuthGuard)
     @Get("my-stories")
     async getUserStories(@Req() req: Request) {

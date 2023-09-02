@@ -26,4 +26,14 @@ export class UsersServiceDb {
     async getUserById(id: number) {
         return await this.repository.findOne({ id: id });
     }
+    async getUserLikeUsernameOrEmail(usernameOrEmail: string, skip: number, count: number) {
+        return await this.repository
+            .createQueryBuilder()
+            .where("username LIKE ?", ["%" + usernameOrEmail + "%"])
+            .orWhere("email LIKE ?", ["%" + usernameOrEmail + "%"])
+            .limit(count)
+            .offset(skip)
+            .getResult()
+
+    }
 }

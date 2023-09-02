@@ -13,7 +13,9 @@ export class StoriesServiceDb {
            title: story.title,
            theme: story.theme,
            story_hash: story.story_hash,
-           author_id: story.author_id
+           author_id: story.author_id,
+           created_at: story.created_at,
+           updated_at: story.updated_at
         });
     }
     async getStoriesAndAuthorByAuthorId(authorId: number) {
@@ -27,5 +29,14 @@ export class StoriesServiceDb {
     }
     async getStoriesAndAuthors(count: number, skip: number) {
         return await this.storiesRepository.find({}, { offset: skip, limit: count, populate: ["author"] });
+    }
+    async getStoriesLikeThemeOrTitle(titleOrTheme: string, count: number, skip: number) {
+        return await this.storiesRepository
+            .createQueryBuilder()
+            .where("title LIKE ?", ["%" + titleOrTheme + "%"])
+            .orWhere("theme LIKE ?", ["%" + titleOrTheme + "%"])
+            .limit(count)
+            .offset(skip)
+            .getResult();
     }
 }

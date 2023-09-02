@@ -23,7 +23,7 @@ export class AuthService {
         if(checkPassword) {
             delete userInDb[0].password;
 
-            return await this.jwtService.signAsync(userInDb[0], { secret: JWT_CONSTANTS.secret });
+            return { token: await this.jwtService.signAsync(userInDb[0], { secret: JWT_CONSTANTS.secret }), avatar: userInDb[0].avatar };
         }
         throw new ForbiddenException({ message: "Wrong password" });
     }

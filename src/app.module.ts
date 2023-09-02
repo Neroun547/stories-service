@@ -18,7 +18,8 @@ import {Stories} from "../db/stories/stories.entity";
         password: process.env.DB_PASSWORD,
         port: Number(process.env.DB_PORT),
         type: "mysql",
-        entities: [Users, Stories]
+        entities: [Users, Stories],
+        forceUtcTimezone: true
       }),
       SignupModule,
       AuthModule,

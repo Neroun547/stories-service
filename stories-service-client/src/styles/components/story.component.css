@@ -53,3 +53,18 @@
     background-color: #fff;
     color: #000;
 }
+
+.wrapper__stories-item-author-date {
+    display: flex;
+    flex-direction: column;
+}
+
+.wrapper__stories-item-author-date h4 {
+    padding: 0;
+    margin: 0;
+}
+
+.wrapper__stories-item-author-date span {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}

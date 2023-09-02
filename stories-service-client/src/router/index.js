@@ -7,6 +7,7 @@ import MyStories from "../components/my-stories/MyStories.vue";
 import PublishStories from "../components/my-stories/publish-stories/PublishStories.vue";
 import Story from "../components/stories/story/Story.vue";
 import Authors from "../components/authors/Authors.vue";
+import Author from "../components/authors/author/Author.vue";
 import MySubscribes from "../components/my-subscribes/MySubscribes.vue";
 
 const router = createRouter({
@@ -51,6 +52,11 @@ const router = createRouter({
       path: "/authors",
       name: "authors",
       component: Authors
+    },
+    {
+      path: "/authors/:id",
+      name: "author",
+      component: Author
     },
     {
       path: "/my-subscribes",
