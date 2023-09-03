@@ -1,8 +1,8 @@
-import {Body, Controller, Post, UseGuards, Req, Get, Delete, Param, ParseIntPipe, Query} from "@nestjs/common";
+import {Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Query, Req, UseGuards} from "@nestjs/common";
 import {SaveStoryDto} from "./dto/save-story.dto";
 import {StoriesService} from "./service/stories.service";
 import {AuthGuard} from "../auth/guards/auth.guard";
-import { Request } from "express";
+import {Request} from "express";
 
 @Controller()
 export class StoriesController {
@@ -21,6 +21,15 @@ export class StoriesController {
         return await this.storiesService.getStoriesAndAuthors(count, skip);
     }
 
+    @Get("author-stories/:id")
+    async getAuthorStoriesByUserId(
+        @Param("id", new ParseIntPipe()) id: number,
+        @Query("skip", new ParseIntPipe()) skip: number,
+        @Query("count", new ParseIntPipe()) count: number
+    ) {
+        return await this.storiesService.getStoriesByUserId(id, count, skip);
+    }
+
     @Get("search-by-theme-or-title/:themeOrTitle")
     async getStoriesByTitleOrTheme(
         @Param("themeOrTitle") themeOrTitle: string,
@@ -33,7 +42,7 @@ export class StoriesController {
     @UseGuards(AuthGuard)
     @Get("my-stories")
     async getUserStories(@Req() req: Request) {
-        return await this.storiesService.getStoriesByUserId(req["user"].id);
+        return await this.storiesService.getStoriesByUserId(req["user"].id, 10, 0);
     }
 
     @Get("get-story-info/:hash")

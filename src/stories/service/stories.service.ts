@@ -26,7 +26,7 @@ export class StoriesService {
 
         await writeFile(resolve("stories/" + storyHash + ".html"), story.story);
     }
-    async getStoriesByUserId(userId: number) {
+    async getStoriesByUserId(userId: number, count: number, skip: number) {
         const serializeData = JSON.parse(JSON.stringify(await this.storiesServiceDb.getStoriesAndAuthorByAuthorId(userId)));
 
         return serializeData.map(el => ({ ...el, author: { username: el.author.username } }));

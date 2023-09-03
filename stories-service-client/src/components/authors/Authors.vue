@@ -7,7 +7,8 @@
   <div class="wrapper__users">
     <RouterLink v-for="item in users" :to="'/authors/' + item.id">
       <div class="wrapper__users-item">
-        <img src="../../../public/profile.png" alt="Avatar">
+        <img src="../../../public/profile.png" alt="Avatar" v-if="!item.avatar">
+        <img :src="'../../../public/avatars/' + item.avatar" alt="Avatar" v-if="item.avatar">
         <span>{{item.username}}</span>
       </div>
     </RouterLink>
@@ -76,5 +77,6 @@
   .wrapper__users-item img {
     width: 60px;
     height: 60px;
+    border-radius: 50%;
   }
 </style>
