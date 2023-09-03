@@ -7,13 +7,15 @@ import {JWT_CONSTANTS} from "../../auth/constants/constants";
 import {CommonService} from "../../../common/common.service";
 import { writeFile, unlink } from "fs/promises";
 import { resolve } from "path";
+import {SubscribesServiceDb} from "../../../db/subscribes/subscribes.service";
 
 @Injectable()
 export class UsersService {
     constructor(
         private usersServiceDb: UsersServiceDb,
         private jwtService: JwtService,
-        private commonService: CommonService
+        private commonService: CommonService,
+        private subscribesServiceDb: SubscribesServiceDb
     ) {}
 
     async changeUserParamsById(userId: number, newParams: ChangeUsersParamsDto, avatar: Express.Multer.File): Promise<string> {
@@ -95,5 +97,28 @@ export class UsersService {
         delete serializeData.password;
 
         return serializeData;
+    }
+
+    async createSubscribe(userId: number, authorId: number) {
+        const subscribeInDb = await this.subscribesServiceDb.getSubscribeByUserIdAndAuthorId(userId, authorId);
+
+        if(subscribeInDb) {
+            throw new BadRequestException({ message: "Subscribe already exists" });
+        }
+        await this.subscribesServiceDb.createSubscribe(userId, authorId);
+    }
+
+    async getUserSubscribeByAuthorId(userId: number, authorId: number) {
+        return await this.subscribesServiceDb.getSubscribeByUserIdAndAuthorId(userId, authorId);
+    }
+
+    async deleteSubscribe(userId: number, authorId: number) {
+        await this.subscribesServiceDb.deleteSubscribe(userId, authorId);
+    }
+
+    async getSubscribesByUserId(userId: number) {
+        const serializedData = JSON.parse(JSON.stringify(await this.subscribesServiceDb.getSubscribesByUserId(userId)));
+
+        return serializedData.map((el) => ({ ...el.author }));
     }
 }

@@ -13,8 +13,8 @@ import "./styles/main.css";
         <RouterLink to="/my-stories">My stories</RouterLink>
         <RouterLink to="/my-subscribes">My subscribes</RouterLink>
         <RouterLink to="/profile-settings">
-          <img :src="'../public/avatars/' + avatar" alt="Profile" class="profile-link" v-if="avatar">
-          <img src="../public/profile.png" alt="Profile" class="profile-link" v-if="!avatar">
+          <img :src="'/avatars/' + avatar" alt="Profile" class="profile-link" v-if="avatar">
+          <img src="/profile.png" alt="Profile" class="profile-link" v-if="!avatar">
         </RouterLink>
         <button @click="exit" class="exit-btn">Exit</button>
       </nav>

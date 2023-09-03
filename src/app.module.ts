@@ -8,6 +8,7 @@ import {AuthModule} from "./auth/auth.module";
 import {UsersModule} from "./users/users.module";
 import {StoriesModule} from "./stories/stories.module";
 import {Stories} from "../db/stories/stories.entity";
+import { Subscribes } from "../db/subscribes/subscribes.entity";
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import {Stories} from "../db/stories/stories.entity";
         password: process.env.DB_PASSWORD,
         port: Number(process.env.DB_PORT),
         type: "mysql",
-        entities: [Users, Stories],
+        entities: [Users, Stories, Subscribes],
         forceUtcTimezone: true
       }),
       SignupModule,

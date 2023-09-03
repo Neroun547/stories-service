@@ -1,10 +1,10 @@
 import {
     Body,
-    Controller,
+    Controller, Delete,
     Get,
     Param,
     ParseIntPipe,
-    Patch,
+    Patch, Post,
     Query,
     Req, UploadedFile,
     UseGuards,
@@ -38,6 +38,34 @@ export class UsersController {
         @Query("count", new ParseIntPipe()) count: number
     ) {
         return await this.usersService.getUserByUsernameOrEmail(usernameOrEmail, skip, count);
+    }
+
+    @UseGuards(AuthGuard)
+    @Post("subscribe/:authorId")
+    async createSubscribe(@Req() req: Request, @Param("authorId", new ParseIntPipe()) authorId: number) {
+        await this.usersService.createSubscribe(req["user"].id, authorId);
+
+        return;
+    }
+
+    @UseGuards(AuthGuard)
+    @Delete("subscribe/:authorId")
+    async deleteSubscribe(@Req() req: Request, @Param("authorId", new ParseIntPipe()) authorId: number) {
+        await this.usersService.deleteSubscribe(req["user"].id, authorId);
+
+        return;
+    }
+
+    @UseGuards(AuthGuard)
+    @Get("subscribes")
+    async getSubscribes(@Req() req: Request) {
+        return await this.usersService.getSubscribesByUserId(req["user"].id);
+    }
+
+    @UseGuards(AuthGuard)
+    @Get("subscribe-user-by-author-id/:authorId")
+    async getSubscribeUserByAuthorId(@Req() req: Request, @Param("authorId", new ParseIntPipe()) authorId: number) {
+        return await this.usersService.getUserSubscribeByAuthorId(req["user"].id, authorId);
     }
 
     @Get(":id")

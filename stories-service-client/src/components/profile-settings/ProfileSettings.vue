@@ -1,8 +1,8 @@
 <template>
   <h2 class="profile-settings-logo mt-100">Profile settings</h2>
   <div class="profile-settings-avatar">
-    <img :src="'../../../public/avatars/' + userAvatar" alt="Avatar" v-if="userAvatar">
-    <img src="../../../public/profile.png" alt="Avatar" v-if="!userAvatar">
+    <img :src="'/avatars/' + userAvatar" alt="Avatar" v-if="userAvatar">
+    <img src="/profile.png" alt="Avatar" v-if="!userAvatar">
     <input type="file" @change="changeAvatar">
   </div>
   <form class="form__component mt-100" @submit="changeProfileSettings">

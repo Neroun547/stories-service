@@ -7,14 +7,16 @@
   <div class="wrapper__users">
     <RouterLink v-for="item in users" :to="'/authors/' + item.id">
       <div class="wrapper__users-item">
-        <img src="../../../public/profile.png" alt="Avatar" v-if="!item.avatar">
-        <img :src="'../../../public/avatars/' + item.avatar" alt="Avatar" v-if="item.avatar">
+        <img src="/profile.png" alt="Avatar" v-if="!item.avatar">
+        <img :src="'/avatars/' + item.avatar" alt="Avatar" v-if="item.avatar">
         <span>{{item.username}}</span>
       </div>
     </RouterLink>
   </div>
 </template>
 <script>
+  import "../../styles/components/list-users.component.css";
+
   export default {
     data() {
       return {
@@ -51,32 +53,5 @@
     cursor: pointer;
     border: none;
     padding: 10px 0;
-  }
-  .wrapper__users {
-    display: flex;
-    flex-direction: column;
-    max-width: 1000px;
-    width: 100%;
-    margin: 0 auto;
-    margin-top: 100px;
-  }
-  .wrapper__users-item {
-    display: flex;
-    align-items: center;
-    background-color: #e5e5e5;
-    padding: 5px;
-    border-radius: 5px;
-    margin-top: 30px;
-  }
-  .wrapper__users-item:hover {
-    background-color: rgba(210, 210, 210, 0.98);
-  }
-  .wrapper__users-item span {
-    margin-left: 10px;
-  }
-  .wrapper__users-item img {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
   }
 </style>

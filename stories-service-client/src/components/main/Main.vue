@@ -15,7 +15,9 @@
 
         <footer>
           <div class="wrapper__stories-item-author-date">
-            <h4 class="wrapper__stories-item-author">Author: {{item.author.username}}</h4>
+            <h4 class="wrapper__stories-item-author">
+              <RouterLink :to="'/authors/' + item.author_id">Author: {{item.author.username}}</RouterLink>
+            </h4>
             <span>{{item.created_at}}</span>
           </div>
           <button class="wrapper__stories-item-read-btn">Read</button>
