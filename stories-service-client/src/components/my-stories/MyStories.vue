@@ -26,12 +26,20 @@
       </div>
     </div>
   </div>
+
+  <button @click="loadMore" v-if="lazyLoading.skip" class="load-more-btn m0-auto mb-100">Load more</button>
 </template>
 <script>
-  export default {
+import "../../styles/components/load-more-btn.css";
+
+export default {
     data() {
       return {
-        stories: []
+        stories: [],
+        lazyLoading: {
+          count: 5,
+          skip: 0
+        }
       }
     },
     methods: {
@@ -39,10 +47,27 @@
         await this.axios.delete("/stories/" + hash);
 
         this.stories = this.stories.filter(el => el.story_hash !== hash);
+      },
+      async loadMore() {
+        const data = (await this.axios.get(`/stories/my-stories/?count=${this.lazyLoading.count}&skip=${this.lazyLoading.skip}`)).data;
+
+        this.stories.push(...data);
+
+        if(data.length === this.lazyLoading.count) {
+          this.lazyLoading.skip += 5;
+        } else {
+          this.lazyLoading.skip = 0;
+        }
       }
     },
     async mounted() {
-      this.stories = (await this.axios.get("/stories/my-stories")).data;
+      this.stories = (await this.axios.get(`/stories/my-stories/?count=${this.lazyLoading.count}&skip=${this.lazyLoading.skip}`)).data;
+
+      if(this.stories.length === this.lazyLoading.count) {
+        this.lazyLoading.skip += 5;
+      } else {
+        this.lazyLoading.skip = 0;
+      }
     }
   }
 </script>

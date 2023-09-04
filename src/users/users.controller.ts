@@ -58,8 +58,8 @@ export class UsersController {
 
     @UseGuards(AuthGuard)
     @Get("subscribes")
-    async getSubscribes(@Req() req: Request) {
-        return await this.usersService.getSubscribesByUserId(req["user"].id);
+    async getSubscribes(@Req() req: Request, @Query("skip", new ParseIntPipe()) skip: number, @Query("count", new ParseIntPipe()) count: number) {
+        return await this.usersService.getSubscribesByUserId(req["user"].id, skip, count);
     }
 
     @UseGuards(AuthGuard)

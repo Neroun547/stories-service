@@ -116,8 +116,8 @@ export class UsersService {
         await this.subscribesServiceDb.deleteSubscribe(userId, authorId);
     }
 
-    async getSubscribesByUserId(userId: number) {
-        const serializedData = JSON.parse(JSON.stringify(await this.subscribesServiceDb.getSubscribesByUserId(userId)));
+    async getSubscribesByUserId(userId: number, skip: number, count: number) {
+        const serializedData = JSON.parse(JSON.stringify(await this.subscribesServiceDb.getSubscribesByUserId(userId, skip, count)));
 
         return serializedData.map((el) => ({ ...el.author }));
     }

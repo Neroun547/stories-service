@@ -27,7 +27,9 @@ import "./styles/main.css";
     </div>
   </header>
 
-  <RouterView/>
+  <div class="wrapper__content">
+    <RouterView/>
+  </div>
 </template>
 
 <script>
@@ -69,6 +71,9 @@ import "./styles/main.css";
     cursor: pointer;
   }
   .wrapper__nav {
+    position: fixed;
+    width: 100%;
+    top: 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -90,5 +95,10 @@ import "./styles/main.css";
     width: 30px;
     height: 30px;
     border-radius: 50%;
+  }
+  .wrapper__content {
+    display: block;
+    margin-top: 100px;
+    margin-bottom: 100px;
   }
 </style>

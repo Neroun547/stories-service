@@ -18,8 +18,11 @@ export class StoriesServiceDb {
            updated_at: story.updated_at
         });
     }
-    async getStoriesAndAuthorByAuthorId(authorId: number) {
-        return await this.storiesRepository.find({ author_id: authorId }, { populate: ["author"] });
+    async getStoriesAndAuthorByAuthorIdDESCCreatedAt(authorId: number, count: number, skip: number) {
+        return await this.storiesRepository.find(
+            { author_id: authorId },
+            { populate: ["author"], orderBy: { created_at: "DESC" }, limit: count, offset: skip }
+        );
     }
     async deleteStoryByAuthorIdAndHashAndReturn(authorId: number, hash: string) {
         return await this.storiesRepository.nativeDelete({ author_id: authorId, story_hash: hash });
@@ -27,8 +30,8 @@ export class StoriesServiceDb {
     async getStoryInfoByHash(hash: string) {
         return await this.storiesRepository.findOne({ story_hash: hash }, { populate: ["author"] });
     }
-    async getStoriesAndAuthors(count: number, skip: number) {
-        return await this.storiesRepository.find({}, { offset: skip, limit: count, populate: ["author"] });
+    async getStoriesAndAuthorsDESCCreatedAt(count: number, skip: number) {
+        return await this.storiesRepository.find({}, { offset: skip, limit: count, populate: ["author"], orderBy: { created_at: "DESC" } });
     }
     async getStoriesLikeThemeOrTitle(titleOrTheme: string, count: number, skip: number) {
         return await this.storiesRepository

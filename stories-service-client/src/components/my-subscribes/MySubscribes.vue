@@ -1,4 +1,5 @@
 <template>
+  <h2 class="subscribes-logo">My subscribes:</h2>
   <div class="wrapper__subscribes mt-50">
     <RouterLink v-for="item in authors" :to="'/authors/' + item.id">
       <div class="wrapper__users-item">
@@ -8,22 +9,50 @@
       </div>
     </RouterLink>
   </div>
+  <button class="load-more-btn m0-auto mt-100" v-if="lazyLoading.skip" @click="loadMore">Load more</button>
 </template>
 <script>
+  import "../../styles/components/load-more-btn.css";
   import "../../styles/components/list-users.component.css";
 
   export default {
     data() {
       return {
-        authors: []
+        authors: [],
+        lazyLoading: {
+          count: 5,
+          skip: 0
+        }
+      }
+    },
+    methods: {
+      async loadMore() {
+        const data = (await this.axios.get(`/users/subscribes/?count=${this.lazyLoading.count}&skip=${this.lazyLoading.skip}`)).data;
+
+        this.authors.push(...data);
+
+        if(data.length < this.lazyLoading.count) {
+          this.lazyLoading.skip = 0;
+        } else {
+          this.lazyLoading.skip += 5;
+        }
       }
     },
     async mounted() {
-      this.authors = (await this.axios.get("/users/subscribes/")).data;
+      this.authors = (await this.axios.get(`/users/subscribes/?count=${this.lazyLoading.count}&skip=${this.lazyLoading.skip}`)).data;
+
+      if(this.authors.length < this.lazyLoading.count) {
+        this.lazyLoading.skip = 0;
+      } else {
+        this.lazyLoading.skip = 5;
+      }
     }
   }
 </script>
 <style>
+  .subscribes-logo {
+    text-align: center;
+  }
   .wrapper__subscribes {
     max-width: 1000px;
     width: 100%;

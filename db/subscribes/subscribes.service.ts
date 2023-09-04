@@ -16,7 +16,7 @@ export class SubscribesServiceDb {
     async deleteSubscribe(userId: number, authorId: number) {
         await this.repository.nativeDelete({ user_id: userId, author_id: authorId });
     }
-    async getSubscribesByUserId(userId: number) {
-        return await this.repository.find({ user_id: userId }, { populate: ["author"] });
+    async getSubscribesByUserId(userId: number, skip: number, count: number) {
+        return await this.repository.find({ user_id: userId }, { populate: ["author"], offset: skip, limit: count });
     }
 }

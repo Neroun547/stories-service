@@ -17,3 +17,11 @@
 .mt-200 {
   margin-top: 200px !important;
 }
+
+.mb-100 {
+  margin-bottom: 100px !important;
+}
+
+.m0-auto {
+  margin: 0 auto;
+}

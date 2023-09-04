@@ -25,26 +25,59 @@
       </div>
     </RouterLink>
   </div>
+  <button class="load-more-btn m0-auto mt-100 mb-100" v-if="lazyLoading.skip" @click="loadMore">Load more</button>
 </template>
 <script>
+  import "../../styles/components/load-more-btn.css";
   import "../../styles/components/story.component.css";
 
   export default {
     data() {
       return {
         themeOrTitle: "",
-        stories: []
+        stories: [],
+        lazyLoading: {
+          count: 5,
+          skip: 0
+        }
       }
     },
     methods: {
       async searchStories(e) {
         e.preventDefault();
 
-        this.stories = (await this.axios.get("/stories/search-by-theme-or-title/" + this.themeOrTitle.replaceAll(" ", "") + "/?count=5&skip=0")).data;
+        const data = (await this.axios.get("/stories/search-by-theme-or-title/" + this.themeOrTitle.replaceAll(" ", "") + `/?count=${this.lazyLoading.count}&skip=${this.lazyLoading.skip}`)).data;
+
+        this.stories = data;
+
+        this.lazyLoading.skip = 0;
+
+        if(data.length < this.lazyLoading.count) {
+          this.lazyLoading.skip = 0;
+        } else {
+          this.lazyLoading.skip += 5;
+        }
+      },
+      async loadMore() {
+        const data = (await this.axios.get(`/stories/?count=${this.lazyLoading.count}&skip=${this.lazyLoading.skip}`)).data;
+
+        this.stories.push(...data);
+
+        if(data.length < this.lazyLoading.count) {
+          this.lazyLoading.skip = 0;
+        } else {
+          this.lazyLoading.skip += 5;
+        }
       }
     },
     async mounted() {
-      this.stories = (await this.axios.get("/stories/?count=10&skip=0")).data;
+      this.stories = (await this.axios.get(`/stories/?count=${this.lazyLoading.count}&skip=${this.lazyLoading.skip}`)).data;
+
+      if(this.stories.length < this.lazyLoading.count) {
+        this.lazyLoading.skip = 0;
+      } else {
+        this.lazyLoading.skip = 5;
+      }
     }
   }
 </script>

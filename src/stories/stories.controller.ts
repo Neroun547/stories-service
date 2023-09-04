@@ -41,8 +41,8 @@ export class StoriesController {
 
     @UseGuards(AuthGuard)
     @Get("my-stories")
-    async getUserStories(@Req() req: Request) {
-        return await this.storiesService.getStoriesByUserId(req["user"].id, 10, 0);
+    async getUserStories(@Req() req: Request, @Query("skip", new ParseIntPipe()) skip: number, @Query("count", new ParseIntPipe()) count: number) {
+        return await this.storiesService.getStoriesByUserId(req["user"].id, count, skip);
     }
 
     @Get("get-story-info/:hash")

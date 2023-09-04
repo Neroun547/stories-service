@@ -20,14 +20,14 @@ export class StoriesService {
             ...story,
             author_id: authorId,
             story_hash: storyHash,
-            created_at: Moment().format("YYYY-MM-DD HH:MM:SS"),
-            updated_at: Moment().format("YYYY-MM-DD HH:MM:SS")
+            created_at: new Date(),
+            updated_at: new Date()
         });
 
         await writeFile(resolve("stories/" + storyHash + ".html"), story.story);
     }
     async getStoriesByUserId(userId: number, count: number, skip: number) {
-        const serializeData = JSON.parse(JSON.stringify(await this.storiesServiceDb.getStoriesAndAuthorByAuthorId(userId)));
+        const serializeData = JSON.parse(JSON.stringify(await this.storiesServiceDb.getStoriesAndAuthorByAuthorIdDESCCreatedAt(userId, count, skip)));
 
         return serializeData.map(el => ({ ...el, author: { username: el.author.username } }));
     }
@@ -51,7 +51,7 @@ export class StoriesService {
         return { ...serializeData, author: { username: serializeData.author.username, email: serializeData.author.email } };
     }
     async getStoriesAndAuthors(count: number, skip: number) {
-        return (await this.storiesServiceDb.getStoriesAndAuthors(count, skip)).map(el => ({ ...el, author: { username: el.author.username, email: el.author.email } }));
+        return (await this.storiesServiceDb.getStoriesAndAuthorsDESCCreatedAt(count, skip)).map(el => ({ ...el, author: { username: el.author.username, email: el.author.email } }));
     }
     async getStoriesByThemeOrTitle(themeOrTitle: string, count: number, skip: number) {
         return await this.storiesServiceDb.getStoriesLikeThemeOrTitle(themeOrTitle, count, skip);

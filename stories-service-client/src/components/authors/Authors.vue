@@ -13,22 +13,48 @@
       </div>
     </RouterLink>
   </div>
+
+  <button class="load-more-btn m0-auto mt-100 mb-100" v-if="lazyLoading.skip" @click="loadMore">Load more</button>
 </template>
 <script>
+  import "../../styles/components/load-more-btn.css";
   import "../../styles/components/list-users.component.css";
 
   export default {
     data() {
       return {
         usernameOrEmail: "",
-        users: []
+        users: [],
+        lazyLoading: {
+          count: 5,
+          skip: 0
+        }
       }
     },
     methods: {
       async searchUsersByUsernameOrEmail(e) {
         e.preventDefault();
 
-        this.users = (await this.axios.get("/users/search-by-username-or-email/" + this.usernameOrEmail + "/?count=10&skip=0")).data
+        const data = (await this.axios.get(`/users/search-by-username-or-email/${this.usernameOrEmail}/?count=${this.lazyLoading.count}&skip=${this.lazyLoading.skip}`)).data;
+
+        this.users = data;
+
+        if(data.length < this.lazyLoading.count) {
+          this.lazyLoading.skip = 0;
+        } else {
+          this.lazyLoading.skip += 5;
+        }
+      },
+      async loadMore() {
+        const data = (await this.axios.get(`/users/search-by-username-or-email/${this.usernameOrEmail}/?count=${this.lazyLoading.count}&skip=${this.lazyLoading.skip}`)).data;
+
+        this.users.push(...data);
+
+        if(data.length < this.lazyLoading.count) {
+          this.lazyLoading.skip = 0;
+        } else {
+          this.lazyLoading.skip += 5;
+        }
       }
     }
   }
