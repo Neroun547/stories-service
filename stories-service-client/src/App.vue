@@ -8,21 +8,29 @@ import "./styles/main.css";
   <header>
     <div class="wrapper__nav">
       <nav v-if="auth">
-        <RouterLink to="/">Main</RouterLink>
-        <RouterLink to="/authors">Authors</RouterLink>
+        <RouterLink to="/">{{getTranslateByKeyLocal("system.ui.translate.nav.main").setting_value}}</RouterLink>
+        <RouterLink to="/authors">{{getTranslateByKeyLocal("system.ui.translate.nav.authors").setting_value}}</RouterLink>
         <RouterLink to="/my-stories">My stories</RouterLink>
         <RouterLink to="/my-subscribes">My subscribes</RouterLink>
         <RouterLink to="/profile-settings">
           <img :src="'/avatars/' + avatar" alt="Profile" class="profile-link" v-if="avatar">
           <img src="/profile.png" alt="Profile" class="profile-link" v-if="!avatar">
         </RouterLink>
+        <select @change="changeLanguage" v-model="selectedLanguage">
+          <option value="uk">Ukrainian</option>
+          <option value="en">English</option>
+        </select>
         <button @click="exit" class="exit-btn">Exit</button>
       </nav>
       <nav v-if="!auth">
-        <RouterLink to="/">Main</RouterLink>
-        <RouterLink to="/authors">Authors</RouterLink>
-        <RouterLink to="/auth">Auth</RouterLink>
-        <RouterLink to="/signup">Sign up</RouterLink>
+        <RouterLink to="/">{{getTranslateByKeyLocal("system.ui.translate.nav.main").setting_value}}</RouterLink>
+        <RouterLink to="/authors">{{getTranslateByKeyLocal("system.ui.translate.nav.authors").setting_value}}</RouterLink>
+        <RouterLink to="/auth">{{getTranslateByKeyLocal("system.ui.translate.nav.auth").setting_value}}</RouterLink>
+        <RouterLink to="/signup">{{getTranslateByKeyLocal("system.ui.translate.nav.signup").setting_value}}</RouterLink>
+        <select @change="changeLanguage" v-model="selectedLanguage">
+          <option value="uk">Ukrainian</option>
+          <option value="en">English</option>
+        </select>
       </nav>
     </div>
   </header>
@@ -33,17 +41,35 @@ import "./styles/main.css";
 </template>
 
 <script>
+  import { getTranslateByKey } from "./components/common/getTranslateByKey.js";
   export default {
     data () {
       return {
         auth: false,
-        avatar: ""
+        avatar: "",
+        selectedLanguage: "uk"
       }
     },
     methods: {
       exit() {
         localStorage.setItem("authToken", "");
 
+        window.location.reload();
+      },
+      getTranslateByKeyLocal(key) {
+        return getTranslateByKey(key);
+      },
+      async changeLanguage(e) {
+        this.selectedLanguage = e.target.value;
+
+        const translate = (await this.axios.get(`/settings/translate/${this.selectedLanguage}`)).data;
+
+        localStorage.setItem("selectedLanguage", e.target.value);
+        localStorage.setItem("translate", JSON.stringify(translate));
+
+        if(this.auth) {
+          await this.axios.patch("/users/change-language/" + this.selectedLanguage);
+        }
         window.location.reload();
       }
     },
@@ -61,6 +87,14 @@ import "./styles/main.css";
           } catch (e) {
             this.auth = false;
           }
+        }
+        if(!localStorage.getItem("translate")) {
+          const translate = (await this.axios.get(`/settings/translate/${this.selectedLanguage}`)).data;
+
+          localStorage.setItem("translate", JSON.stringify(translate));
+        }
+        if(localStorage.getItem("selectedLanguage")) {
+          this.selectedLanguage = localStorage.getItem("selectedLanguage");
         }
     }
   }

@@ -20,4 +20,7 @@ export class Users implements UsersInterface {
 
     @Property()
     avatar: string;
+
+    @Property({ default: "uk" })
+    language: string;
 }

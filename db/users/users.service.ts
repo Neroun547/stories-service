@@ -36,4 +36,7 @@ export class UsersServiceDb {
             .getResult()
 
     }
+    async changeUserLanguageById(userId: number, language: string) {
+        await this.repository.nativeUpdate({ id: userId }, { language: language });
+    }
 }

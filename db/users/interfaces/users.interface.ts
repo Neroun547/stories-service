@@ -5,4 +5,5 @@ export interface UsersInterface {
     email: string;
     password: string;
     avatar: string;
+    language?: string;
 }

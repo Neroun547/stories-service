@@ -68,6 +68,14 @@ export class UsersController {
         return await this.usersService.getUserSubscribeByAuthorId(req["user"].id, authorId);
     }
 
+    @UseGuards(AuthGuard)
+    @Patch("change-language/:language")
+    async changeLanguage(@Req() req: Request, @Param("language") language: string) {
+        await this.usersService.changeUserLanguageById(req["user"].id, language);
+
+        return;
+    }
+
     @Get(":id")
     async getUserInfoById(@Param("id", new ParseIntPipe()) id: number) {
         return await this.usersService.getUserInfoById(id);

@@ -9,6 +9,8 @@ import {UsersModule} from "./users/users.module";
 import {StoriesModule} from "./stories/stories.module";
 import {Stories} from "../db/stories/stories.entity";
 import { Subscribes } from "../db/subscribes/subscribes.entity";
+import {SettingsModule} from "./settings/settings.module";
+import {Settings} from "../db/settings/settings.entity";
 
 @Module({
   imports: [
@@ -19,18 +21,20 @@ import { Subscribes } from "../db/subscribes/subscribes.entity";
         password: process.env.DB_PASSWORD,
         port: Number(process.env.DB_PORT),
         type: "mysql",
-        entities: [Users, Stories, Subscribes],
+        entities: [Users, Stories, Subscribes, Settings],
         forceUtcTimezone: true
       }),
       SignupModule,
       AuthModule,
       UsersModule,
       StoriesModule,
+      SettingsModule,
       RouterModule.register([
           { path: "api/signup", module: SignupModule },
           { path: "api/auth", module: AuthModule },
           { path: "api/users", module: UsersModule },
-          { path: "api/stories", module: StoriesModule }
+          { path: "api/stories", module: StoriesModule },
+          { path: "api/settings", module: SettingsModule }
       ])
   ],
   providers: [],

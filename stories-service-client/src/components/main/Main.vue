@@ -1,7 +1,7 @@
 <template>
-  <h1 class="horror-stories-logo">Stories service</h1>
+  <h1 class="horror-stories-logo">{{getTranslateByKeyLocal("system.ui.translate.main_logo").setting_value}}</h1>
   <div class="wrapper__description">
-    It's service for stories ... You can read stories, publish stories
+    {{getTranslateByKeyLocal("system.ui.translate.main_logo_description").setting_value}}
   </div>
   <form @submit="searchStories" class="search-story-form">
     <input type="text" placeholder="Search stories by theme or title" v-model="themeOrTitle">
@@ -28,6 +28,7 @@
   <button class="load-more-btn m0-auto mt-100 mb-100" v-if="lazyLoading.skip" @click="loadMore">Load more</button>
 </template>
 <script>
+  import { getTranslateByKey } from "../common/getTranslateByKey.js";
   import "../../styles/components/load-more-btn.css";
   import "../../styles/components/story.component.css";
 
@@ -43,6 +44,9 @@
       }
     },
     methods: {
+      getTranslateByKeyLocal(key) {
+        return getTranslateByKey(key);
+      },
       async searchStories(e) {
         e.preventDefault();
 

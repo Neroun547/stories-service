@@ -121,4 +121,8 @@ export class UsersService {
 
         return serializedData.map((el) => ({ ...el.author }));
     }
+
+    async changeUserLanguageById(userId: number, language: string) {
+        await this.usersServiceDb.changeUserLanguageById(userId, language);
+    }
 }
