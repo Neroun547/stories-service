@@ -5,7 +5,7 @@ import "./styles/main.css";
 </script>
 
 <template>
-  <header>
+  <header v-if="!mobileVersion">
     <div class="wrapper__nav">
       <nav v-if="auth">
         <RouterLink to="/">{{getTranslateByKeyLocal("system.ui.translate.nav.main").setting_value}}</RouterLink>
@@ -35,6 +35,41 @@ import "./styles/main.css";
     </div>
   </header>
 
+  <header v-if="mobileVersion">
+    <div class="wrapper__nav">
+      <nav v-if="auth">
+        <RouterLink to="/">{{getTranslateByKeyLocal("system.ui.translate.nav.main").setting_value}}</RouterLink>
+        <RouterLink to="/authors">{{getTranslateByKeyLocal("system.ui.translate.nav.authors").setting_value}}</RouterLink>
+        <RouterLink to="/profile-settings">
+          <img :src="'/avatars/' + avatar" alt="Profile" class="profile-link" v-if="avatar">
+          <img src="/profile.png" alt="Profile" class="profile-link" v-if="!avatar">
+        </RouterLink>
+        <select @change="changeLanguage" v-model="selectedLanguage">
+          <option value="uk">{{getTranslateByKeyLocal("system.ui.translate.ukrainian").setting_value}}</option>
+          <option value="en">{{getTranslateByKeyLocal("system.ui.translate.english").setting_value}}</option>
+        </select>
+        <button @click="exit" class="exit-btn">{{getTranslateByKeyLocal("system.ui.translate.logout").setting_value}}</button>
+      </nav>
+      <nav v-if="!auth">
+        <button class="burger-menu-button" @click="showBurgerMenu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <RouterLink to="/">{{getTranslateByKeyLocal("system.ui.translate.nav.main").setting_value}}</RouterLink>
+        <RouterLink to="/authors">{{getTranslateByKeyLocal("system.ui.translate.nav.authors").setting_value}}</RouterLink>
+        <select @change="changeLanguage" v-model="selectedLanguage">
+          <option value="uk">{{getTranslateByKeyLocal("system.ui.translate.ukrainian").setting_value}}</option>
+          <option value="en">{{getTranslateByKeyLocal("system.ui.translate.english").setting_value}}</option>
+        </select>
+      </nav>
+    </div>
+    <div class="wrapper__burger-menu" :style="{ left: burgerMenuLeftPositionInPercent + '%'  }">
+      <RouterLink to="/auth">{{getTranslateByKeyLocal("system.ui.translate.nav.auth").setting_value}}</RouterLink>
+      <RouterLink to="/signup">{{getTranslateByKeyLocal("system.ui.translate.nav.signup").setting_value}}</RouterLink>
+    </div>
+  </header>
+
   <div class="wrapper__content">
     <RouterView/>
   </div>
@@ -47,7 +82,9 @@ import "./styles/main.css";
       return {
         auth: false,
         avatar: "",
-        selectedLanguage: "uk"
+        selectedLanguage: "uk",
+        mobileVersion: false,
+        burgerMenuLeftPositionInPercent: -50
       }
     },
     methods: {
@@ -55,6 +92,27 @@ import "./styles/main.css";
         localStorage.setItem("authToken", "");
 
         window.location.reload();
+      },
+      showBurgerMenu() {
+        if(this.burgerMenuLeftPositionInPercent < 0) {
+          const interval = setInterval(() => {
+
+            if(this.burgerMenuLeftPositionInPercent < 0) {
+              this.burgerMenuLeftPositionInPercent += 1;
+            } else {
+              clearInterval(interval);
+            }
+          }, 5);
+        } else {
+          const interval = setInterval(() => {
+
+            if(this.burgerMenuLeftPositionInPercent > -50) {
+              this.burgerMenuLeftPositionInPercent -= 1;
+            } else {
+              clearInterval(interval);
+            }
+          }, 5);
+        }
       },
       getTranslateByKeyLocal(key) {
         return getTranslateByKey(key);
@@ -75,6 +133,9 @@ import "./styles/main.css";
     },
     async created() {
 
+      if(window.matchMedia("(max-width: 1080px)").matches) {
+        this.mobileVersion = true;
+      }
       if(!localStorage.getItem("authToken")) {
         this.auth = false
       } else {
@@ -103,6 +164,30 @@ import "./styles/main.css";
 </script>
 
 <style scoped>
+  .wrapper__burger-menu {
+    position: fixed;
+    top: 40px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #000000de;
+    width: 50%;
+  }
+  .wrapper__burger-menu a {
+    color: #fff;
+    margin-top: 100px;
+    text-align: center;
+  }
+  .burger-menu-button {
+    cursor: pointer;
+  }
+  .burger-menu-button span {
+    display: block;
+    width: 30px;
+    height: 2px;
+    background-color: #000;
+    margin: 5px auto;
+  }
   .exit-btn {
     cursor: pointer;
   }
