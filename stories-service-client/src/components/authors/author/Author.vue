@@ -28,8 +28,10 @@
       </div>
     </RouterLink>
   </div>
+  <button class="load-more-btn m0-auto mt-100 mb-100" v-if="lazyLoading.skip" @click="loadMore">{{getTranslateByKeyLocal('system.ui.translate.load_more').setting_value}}</button>
 </template>
 <script>
+  import "../../../styles/components/load-more-btn.css";
   import "../../../styles/components/story.component.css";
   import { getTranslateByKey } from "../../common/getTranslateByKey.js";
 
@@ -38,10 +40,25 @@
       return {
         user: {},
         alreadySubscribed: false,
-        stories: []
+        stories: [],
+        lazyLoading: {
+          count: 5,
+          skip: 0
+        }
       }
     },
     methods: {
+      async loadMore() {
+        const data = (await this.axios.get(`/stories/author-stories/${this.$route.params.id}/?count=${this.lazyLoading.count}&skip=${this.lazyLoading.skip}`)).data;
+
+        this.stories.push(...data);
+
+        if(data.length < this.lazyLoading.count) {
+          this.lazyLoading.skip = 0;
+        } else {
+          this.lazyLoading.skip += 5;
+        }
+      },
       getTranslateByKeyLocal(key) {
         return getTranslateByKey(key);
       },
@@ -58,13 +75,18 @@
     },
     async mounted () {
       this.user = (await this.axios.get("/users/" + this.$route.params.id)).data;
-      this.stories = (await this.axios.get("/stories/author-stories/" + this.$route.params.id + "/?count=10&skip=0")).data
+      this.stories = (await this.axios.get(`/stories/author-stories/${this.$route.params.id}/?count=${this.lazyLoading.count}&skip=${this.lazyLoading.skip}`)).data;
       const userSubscribe = (await this.axios.get("/users/subscribe-user-by-author-id/" + this.$route.params.id)).data;
 
       if(userSubscribe) {
         this.alreadySubscribed = true;
       } else {
         this.alreadySubscribed = false;
+      }
+      if(this.stories.length < this.lazyLoading.count) {
+        this.lazyLoading.skip = 0;
+      } else {
+        this.lazyLoading.skip = 5;
       }
     }
   }
