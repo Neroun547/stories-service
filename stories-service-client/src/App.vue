@@ -38,12 +38,13 @@ import "./styles/main.css";
   <header v-if="mobileVersion">
     <div class="wrapper__nav">
       <nav v-if="auth">
+        <button class="burger-menu-button" @click="showBurgerMenu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
         <RouterLink to="/">{{getTranslateByKeyLocal("system.ui.translate.nav.main").setting_value}}</RouterLink>
         <RouterLink to="/authors">{{getTranslateByKeyLocal("system.ui.translate.nav.authors").setting_value}}</RouterLink>
-        <RouterLink to="/profile-settings">
-          <img :src="'/avatars/' + avatar" alt="Profile" class="profile-link" v-if="avatar">
-          <img src="/profile.png" alt="Profile" class="profile-link" v-if="!avatar">
-        </RouterLink>
         <select @change="changeLanguage" v-model="selectedLanguage">
           <option value="uk">{{getTranslateByKeyLocal("system.ui.translate.ukrainian").setting_value}}</option>
           <option value="en">{{getTranslateByKeyLocal("system.ui.translate.english").setting_value}}</option>
@@ -64,9 +65,17 @@ import "./styles/main.css";
         </select>
       </nav>
     </div>
-    <div class="wrapper__burger-menu" :style="{ left: burgerMenuLeftPositionInPercent + '%'  }">
+    <div class="wrapper__burger-menu" :style="{ left: burgerMenuLeftPositionInPercent + '%'  }" v-if="!auth">
       <RouterLink to="/auth">{{getTranslateByKeyLocal("system.ui.translate.nav.auth").setting_value}}</RouterLink>
       <RouterLink to="/signup">{{getTranslateByKeyLocal("system.ui.translate.nav.signup").setting_value}}</RouterLink>
+    </div>
+    <div class="wrapper__burger-menu" :style="{ left: burgerMenuLeftPositionInPercent + '%'  }" v-if="auth">
+      <RouterLink to="/profile-settings">
+        <img :src="'/avatars/' + avatar" alt="Profile" class="profile-link" v-if="avatar">
+        <img src="/profile.png" alt="Profile" class="profile-link" v-if="!avatar">
+      </RouterLink>
+      <RouterLink to="/my-stories">{{getTranslateByKeyLocal("system.ui.translate.nav.my_stories").setting_value}}</RouterLink>
+      <RouterLink to="/my-subscribes">{{getTranslateByKeyLocal("system.ui.translate.nav.my_subscribes").setting_value}}</RouterLink>
     </div>
   </header>
 
@@ -221,5 +230,13 @@ import "./styles/main.css";
     display: block;
     margin-top: 100px;
     margin-bottom: 100px;
+  }
+
+  @media screen and (max-width: 1080px) {
+    .profile-link {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+    }
   }
 </style>
