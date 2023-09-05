@@ -7,9 +7,9 @@
       <span>{{user.username}}</span>
       <span>{{user.email}}</span>
 
-      <button class="subscribe-btn" @click="addSubscribe" v-if="!alreadySubscribed">Subscribe</button>
-      <span class="already-subscribed-span" v-if="alreadySubscribed">Already subscribed</span>
-      <button v-if="alreadySubscribed" @click="removeSubscribe" class="remove-subscribe-btn">Unsubscribe</button>
+      <button class="subscribe-btn" @click="addSubscribe" v-if="!alreadySubscribed">{{getTranslateByKeyLocal("system.ui.translate.subscribe").setting_value}}</button>
+      <span class="already-subscribed-span" v-if="alreadySubscribed">{{getTranslateByKeyLocal("system.ui.translate.already_subscribed").setting_value}}</span>
+      <button v-if="alreadySubscribed" @click="removeSubscribe" class="remove-subscribe-btn">{{getTranslateByKeyLocal("system.ui.translate.unsubscribe").setting_value}}</button>
     </div>
   </div>
   <div class="wrapper__stories mt-50">
@@ -20,10 +20,10 @@
 
         <footer>
           <div class="wrapper__stories-item-author-date">
-            <h4 class="wrapper__stories-item-author">Author: {{item.author.username}}</h4>
+            <h4 class="wrapper__stories-item-author">{{getTranslateByKeyLocal("system.ui.translate.author").setting_value}}: {{item.author.username}}</h4>
             <span>{{item.created_at}}</span>
           </div>
-          <button class="wrapper__stories-item-read-btn">Read</button>
+          <button class="wrapper__stories-item-read-btn">{{getTranslateByKeyLocal("system.ui.translate.read").setting_value}}</button>
         </footer>
       </div>
     </RouterLink>
@@ -31,6 +31,7 @@
 </template>
 <script>
   import "../../../styles/components/story.component.css";
+  import { getTranslateByKey } from "../../common/getTranslateByKey.js";
 
   export default {
     data() {
@@ -41,6 +42,9 @@
       }
     },
     methods: {
+      getTranslateByKeyLocal(key) {
+        return getTranslateByKey(key);
+      },
       async addSubscribe() {
         await this.axios.post("/users/subscribe/" + this.$route.params.id);
 

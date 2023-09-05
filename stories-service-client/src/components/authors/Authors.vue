@@ -1,7 +1,7 @@
 <template>
   <form class="search-user-form" @submit="searchUsersByUsernameOrEmail">
-    <input type="text" placeholder="Username or email:" v-model="usernameOrEmail">
-    <button>Search</button>
+    <input type="text" :placeholder="getTranslateByKeyLocal('system.ui.translate.auth.username_or_email').setting_value" v-model="usernameOrEmail">
+    <button>{{getTranslateByKeyLocal('system.ui.translate.search').setting_value}}</button>
   </form>
 
   <div class="wrapper__users">
@@ -14,11 +14,12 @@
     </RouterLink>
   </div>
 
-  <button class="load-more-btn m0-auto mt-100 mb-100" v-if="lazyLoading.skip" @click="loadMore">Load more</button>
+  <button class="load-more-btn m0-auto mt-100 mb-100" v-if="lazyLoading.skip" @click="loadMore">{{getTranslateByKeyLocal('system.ui.translate.load_more').setting_value}}</button>
 </template>
 <script>
   import "../../styles/components/load-more-btn.css";
   import "../../styles/components/list-users.component.css";
+  import { getTranslateByKey } from "../common/getTranslateByKey.js";
 
   export default {
     data() {
@@ -32,6 +33,9 @@
       }
     },
     methods: {
+      getTranslateByKeyLocal(key) {
+        return getTranslateByKey(key);
+      },
       async searchUsersByUsernameOrEmail(e) {
         e.preventDefault();
 

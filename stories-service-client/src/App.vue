@@ -10,17 +10,17 @@ import "./styles/main.css";
       <nav v-if="auth">
         <RouterLink to="/">{{getTranslateByKeyLocal("system.ui.translate.nav.main").setting_value}}</RouterLink>
         <RouterLink to="/authors">{{getTranslateByKeyLocal("system.ui.translate.nav.authors").setting_value}}</RouterLink>
-        <RouterLink to="/my-stories">My stories</RouterLink>
-        <RouterLink to="/my-subscribes">My subscribes</RouterLink>
+        <RouterLink to="/my-stories">{{getTranslateByKeyLocal("system.ui.translate.nav.my_stories").setting_value}}</RouterLink>
+        <RouterLink to="/my-subscribes">{{getTranslateByKeyLocal("system.ui.translate.nav.my_subscribes").setting_value}}</RouterLink>
         <RouterLink to="/profile-settings">
           <img :src="'/avatars/' + avatar" alt="Profile" class="profile-link" v-if="avatar">
           <img src="/profile.png" alt="Profile" class="profile-link" v-if="!avatar">
         </RouterLink>
         <select @change="changeLanguage" v-model="selectedLanguage">
-          <option value="uk">Ukrainian</option>
-          <option value="en">English</option>
+          <option value="uk">{{getTranslateByKeyLocal("system.ui.translate.ukrainian").setting_value}}</option>
+          <option value="en">{{getTranslateByKeyLocal("system.ui.translate.english").setting_value}}</option>
         </select>
-        <button @click="exit" class="exit-btn">Exit</button>
+        <button @click="exit" class="exit-btn">{{getTranslateByKeyLocal("system.ui.translate.logout").setting_value}}</button>
       </nav>
       <nav v-if="!auth">
         <RouterLink to="/">{{getTranslateByKeyLocal("system.ui.translate.nav.main").setting_value}}</RouterLink>
@@ -28,8 +28,8 @@ import "./styles/main.css";
         <RouterLink to="/auth">{{getTranslateByKeyLocal("system.ui.translate.nav.auth").setting_value}}</RouterLink>
         <RouterLink to="/signup">{{getTranslateByKeyLocal("system.ui.translate.nav.signup").setting_value}}</RouterLink>
         <select @change="changeLanguage" v-model="selectedLanguage">
-          <option value="uk">Ukrainian</option>
-          <option value="en">English</option>
+          <option value="uk">{{getTranslateByKeyLocal("system.ui.translate.ukrainian").setting_value}}</option>
+          <option value="en">{{getTranslateByKeyLocal("system.ui.translate.english").setting_value}}</option>
         </select>
       </nav>
     </div>

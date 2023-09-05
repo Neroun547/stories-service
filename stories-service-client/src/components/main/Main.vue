@@ -5,7 +5,7 @@
   </div>
   <form @submit="searchStories" class="search-story-form">
     <input type="text" placeholder="Search stories by theme or title" v-model="themeOrTitle">
-    <button>Search</button>
+    <button>{{getTranslateByKeyLocal('system.ui.translate.search').setting_value}}</button>
   </form>
   <div class="wrapper__stories">
     <RouterLink v-for="item in stories" :to="'/stories/' + item.story_hash">
@@ -16,16 +16,16 @@
         <footer>
           <div class="wrapper__stories-item-author-date">
             <h4 class="wrapper__stories-item-author">
-              <RouterLink :to="'/authors/' + item.author_id">Author: {{item.author.username}}</RouterLink>
+              <RouterLink :to="'/authors/' + item.author_id">{{getTranslateByKeyLocal("system.ui.translate.author").setting_value}}: {{item.author.username}}</RouterLink>
             </h4>
             <span>{{item.created_at}}</span>
           </div>
-          <button class="wrapper__stories-item-read-btn">Read</button>
+          <button class="wrapper__stories-item-read-btn">{{getTranslateByKeyLocal('system.ui.translate.read').setting_value}}</button>
         </footer>
       </div>
     </RouterLink>
   </div>
-  <button class="load-more-btn m0-auto mt-100 mb-100" v-if="lazyLoading.skip" @click="loadMore">Load more</button>
+  <button class="load-more-btn m0-auto mt-100 mb-100" v-if="lazyLoading.skip" @click="loadMore">{{getTranslateByKeyLocal("system.ui.translate.load_more").setting_value}}</button>
 </template>
 <script>
   import { getTranslateByKey } from "../common/getTranslateByKey.js";

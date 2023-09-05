@@ -7,30 +7,31 @@
     </RouterLink>
   </div>
   <div v-if="!stories.length">
-    <h2 class="no-stories-logo mt-50">You don't have stories ...</h2>
+    <h2 class="no-stories-logo mt-50">{{getTranslateByKeyLocal("system.ui.translate.my_stories.no_stories_logo").setting_value}}</h2>
   </div>
   <div v-if="stories.length" class="wrapper__my-stories">
     <div v-for="story in stories" class="wrapper__my-stories-item">
       <h1 class="wrapper__my-stories-item-title">{{story.title}}</h1>
-      <h3 class="wrapper__my-stories-item-theme">Theme: {{story.theme}}</h3>
+      <h3 class="wrapper__my-stories-item-theme">{{getTranslateByKeyLocal("system.ui.translate.theme").setting_value}}: {{story.theme}}</h3>
       <div class="wrapper__my-stories-item-footer">
         <div>
           <h5>{{story.created_at}}</h5>
         </div>
         <div class="wrapper__my-stories-item-footer-buttons">
-          <button class="wrapper__my-stories-item-delete-btn" @click="deleteStoryByHash(story.story_hash)">Delete</button>
+          <button class="wrapper__my-stories-item-delete-btn" @click="deleteStoryByHash(story.story_hash)">{{getTranslateByKeyLocal("system.ui.translate.delete").setting_value}}</button>
           <RouterLink :to="'/stories/' + story.story_hash">
-            <button class="wrapper__my-stories-item-read-btn">Read</button>
+            <button class="wrapper__my-stories-item-read-btn">{{getTranslateByKeyLocal("system.ui.translate.read").setting_value}}</button>
           </RouterLink>
         </div>
       </div>
     </div>
   </div>
 
-  <button @click="loadMore" v-if="lazyLoading.skip" class="load-more-btn m0-auto mb-100">Load more</button>
+  <button @click="loadMore" v-if="lazyLoading.skip" class="load-more-btn m0-auto mb-100">{{getTranslateByKeyLocal("system.ui.translate.load_more").setting_value}}</button>
 </template>
 <script>
 import "../../styles/components/load-more-btn.css";
+import {getTranslateByKey} from "../common/getTranslateByKey";
 
 export default {
     data() {
@@ -43,6 +44,9 @@ export default {
       }
     },
     methods: {
+      getTranslateByKeyLocal(key) {
+        return getTranslateByKey(key);
+      },
       async deleteStoryByHash(hash) {
         await this.axios.delete("/stories/" + hash);
 

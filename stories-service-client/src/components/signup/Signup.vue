@@ -1,10 +1,10 @@
 <template>
   <form class="mt-200 form__component" @submit="signup">
-    <input type="text" placeholder="Your name:" v-model="signupForm.name">
-    <input type="text" placeholder="Your username:" v-model="signupForm.username">
-    <input type="email" placeholder="Your email:" v-model="signupForm.email">
-    <input type="password" placeholder="Password:" v-model="signupForm.password">
-    <button type="submit">Sign up</button>
+    <input type="text" :placeholder="getTranslateByKeyLocal('system.ui.translate.your_name').setting_value" v-model="signupForm.name">
+    <input type="text" :placeholder="getTranslateByKeyLocal('system.ui.translate.username').setting_value" v-model="signupForm.username">
+    <input type="email" :placeholder="getTranslateByKeyLocal('system.ui.translate.email').setting_value" v-model="signupForm.email">
+    <input type="password" :placeholder="getTranslateByKeyLocal('system.ui.translate.password').setting_value" v-model="signupForm.password">
+    <button type="submit">{{getTranslateByKeyLocal("system.ui.translate.nav.signup").setting_value}}</button>
   </form>
   <div class="form__component-error-message" v-if="signupError">
     {{signupError}}
@@ -13,6 +13,7 @@
 
 <script>
   import "../../styles/components/form.component.css";
+  import {getTranslateByKey} from "../common/getTranslateByKey";
 
   export default {
     data() {
@@ -27,6 +28,9 @@
       }
     },
     methods: {
+      getTranslateByKeyLocal(key) {
+        return getTranslateByKey(key);
+      },
       async signup(e) {
         e.preventDefault();
 

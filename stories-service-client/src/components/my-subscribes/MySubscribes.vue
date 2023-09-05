@@ -1,5 +1,5 @@
 <template>
-  <h2 class="subscribes-logo">My subscribes:</h2>
+  <h2 class="subscribes-logo">{{getTranslateByKeyLocal("system.ui.translate.my_subscribes.logo").setting_value}}:</h2>
   <div class="wrapper__subscribes mt-50">
     <RouterLink v-for="item in authors" :to="'/authors/' + item.id">
       <div class="wrapper__users-item">
@@ -9,11 +9,12 @@
       </div>
     </RouterLink>
   </div>
-  <button class="load-more-btn m0-auto mt-100" v-if="lazyLoading.skip" @click="loadMore">Load more</button>
+  <button class="load-more-btn m0-auto mt-100" v-if="lazyLoading.skip" @click="loadMore">{{getTranslateByKeyLocal("system.ui.translate.load_more").setting_value}}</button>
 </template>
 <script>
   import "../../styles/components/load-more-btn.css";
   import "../../styles/components/list-users.component.css";
+  import { getTranslateByKey } from "../common/getTranslateByKey.js";
 
   export default {
     data() {
@@ -36,6 +37,9 @@
         } else {
           this.lazyLoading.skip += 5;
         }
+      },
+      getTranslateByKeyLocal(key) {
+        return getTranslateByKey(key);
       }
     },
     async mounted() {

@@ -1,23 +1,23 @@
 <template>
-  <h2 class="profile-settings-logo mt-100">Profile settings</h2>
+  <h2 class="profile-settings-logo mt-100">{{getTranslateByKeyLocal("system.ui.translate.profile_settings").setting_value}}</h2>
   <div class="profile-settings-avatar">
     <img :src="'/avatars/' + userAvatar" alt="Avatar" v-if="userAvatar">
     <img src="/profile.png" alt="Avatar" v-if="!userAvatar">
     <input type="file" @change="changeAvatar">
   </div>
   <form class="form__component mt-100" @submit="changeProfileSettings">
-    <input type="text" placeholder="New name:" v-model="user.name">
-    <input type="text" placeholder="New username:" v-model="user.username">
-    <input type="email" placeholder="New email:" v-model="user.email">
+    <input type="text" :placeholder="getTranslateByKeyLocal('system.ui.translate.profile_settings.new_name').setting_value" v-model="user.name">
+    <input type="text" :placeholder="getTranslateByKeyLocal('system.ui.translate.profile_settings.new_username').setting_value" v-model="user.username">
+    <input type="email" :placeholder="getTranslateByKeyLocal('system.ui.translate.profile_settings.new_email').setting_value" v-model="user.email">
 
-    <button @click="showChangePasswordInputs" type="button">Change password</button>
+    <button @click="showChangePasswordInputs" type="button">{{getTranslateByKeyLocal('system.ui.translate.profile_settings.change_password').setting_value}}</button>
 
     <div class="change-password-inputs" v-if="showChangePasswordInputsState">
-      <input type="password" placeholder="Write your old password" v-model="user.oldPassword">
-      <input type="password" placeholder="Write your new password" v-model="user.newPassword">
+      <input type="password" :placeholder="getTranslateByKeyLocal('system.ui.translate.profile_settings.write_old_password').setting_value" v-model="user.oldPassword">
+      <input type="password" :placeholder="getTranslateByKeyLocal('system.ui.translate.profile_settings.write_new_password').setting_value" v-model="user.newPassword">
     </div>
 
-    <button type="submit">Save changes</button>
+    <button type="submit">{{getTranslateByKeyLocal("system.ui.translate.save_changes").setting_value}}</button>
   </form>
   <div class="form__component-error-message" v-if="profileSettingsError">
     {{profileSettingsError}}
@@ -46,6 +46,8 @@
   }
 </style>
 <script>
+  import { getTranslateByKey } from "../common/getTranslateByKey.js";
+
   export default {
     data() {
       return {
@@ -72,6 +74,9 @@
     methods: {
       changeAvatar(e) {
         this.userAvatar = e.target.files[0]
+      },
+      getTranslateByKeyLocal(key) {
+        return getTranslateByKey(key);
       },
       showChangePasswordInputs() {
         this.showChangePasswordInputsState = !this.showChangePasswordInputsState;
