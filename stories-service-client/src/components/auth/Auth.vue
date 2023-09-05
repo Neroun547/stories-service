@@ -1,7 +1,7 @@
 <template>
   <form class="mt-200 form__component" @submit="auth">
-    <input type="text" :placeholder="getTranslateByKeyLocal('system.ui.translate.auth.username_or_email').setting_value" v-model="authForm.usernameOrEmail">
-    <input type="password" :placeholder="getTranslateByKeyLocal('system.ui.translate.password').setting_value" v-model="authForm.password">
+    <input type="text" :placeholder="getTranslateByKeyLocal('system.ui.translate.auth.username_or_email').setting_value" v-model="authForm.usernameOrEmail" required>
+    <input type="password" :placeholder="getTranslateByKeyLocal('system.ui.translate.password').setting_value" v-model="authForm.password" required>
     <button type="submit">{{getTranslateByKeyLocal("system.ui.translate.nav.auth").setting_value}}</button>
   </form>
   <div class="form__component-error-message" v-if="authError">

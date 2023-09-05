@@ -1,9 +1,9 @@
 <template>
   <form class="mt-200 form__component" @submit="signup">
-    <input type="text" :placeholder="getTranslateByKeyLocal('system.ui.translate.your_name').setting_value" v-model="signupForm.name">
-    <input type="text" :placeholder="getTranslateByKeyLocal('system.ui.translate.username').setting_value" v-model="signupForm.username">
-    <input type="email" :placeholder="getTranslateByKeyLocal('system.ui.translate.email').setting_value" v-model="signupForm.email">
-    <input type="password" :placeholder="getTranslateByKeyLocal('system.ui.translate.password').setting_value" v-model="signupForm.password">
+    <input type="text" :placeholder="getTranslateByKeyLocal('system.ui.translate.your_name').setting_value" v-model="signupForm.name" required>
+    <input type="text" :placeholder="getTranslateByKeyLocal('system.ui.translate.username').setting_value" v-model="signupForm.username" required>
+    <input type="email" :placeholder="getTranslateByKeyLocal('system.ui.translate.email').setting_value" v-model="signupForm.email" required>
+    <input type="password" :placeholder="getTranslateByKeyLocal('system.ui.translate.password').setting_value" v-model="signupForm.password" required>
     <button type="submit">{{getTranslateByKeyLocal("system.ui.translate.nav.signup").setting_value}}</button>
   </form>
   <div class="form__component-error-message" v-if="signupError">

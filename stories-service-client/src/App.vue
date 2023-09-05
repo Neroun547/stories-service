@@ -73,29 +73,31 @@ import "./styles/main.css";
         window.location.reload();
       }
     },
-    async beforeMount() {
+    async created() {
 
-        if(!localStorage.getItem("authToken")) {
-          this.auth = false
-        } else {
-          try {
-            const user = (await this.axios.get("/auth/user-info")).data;
+      if(!localStorage.getItem("authToken")) {
+        this.auth = false
+      } else {
+        try {
+          const user = (await this.axios.get("/auth/user-info")).data;
 
-            this.avatar = user.avatar;
+          this.avatar = user.avatar;
 
-            this.auth = true;
-          } catch (e) {
-            this.auth = false;
-          }
+          this.auth = true;
+        } catch (e) {
+          this.auth = false;
         }
-        if(!localStorage.getItem("translate")) {
-          const translate = (await this.axios.get(`/settings/translate/${this.selectedLanguage}`)).data;
+      }
+      if(!localStorage.getItem("translate")) {
+        const translate = (await this.axios.get(`/settings/translate/${this.selectedLanguage}`)).data;
 
-          localStorage.setItem("translate", JSON.stringify(translate));
-        }
-        if(localStorage.getItem("selectedLanguage")) {
-          this.selectedLanguage = localStorage.getItem("selectedLanguage");
-        }
+        localStorage.setItem("translate", JSON.stringify(translate));
+
+        window.location.reload();
+      }
+      if(localStorage.getItem("selectedLanguage")) {
+        this.selectedLanguage = localStorage.getItem("selectedLanguage");
+      }
     }
   }
 </script>
