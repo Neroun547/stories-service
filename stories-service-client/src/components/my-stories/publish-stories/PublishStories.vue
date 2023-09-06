@@ -48,7 +48,7 @@
 </script>
 <style>
   .wrapper__stories-editor {
-    width: 1000px;
+    max-width: 1000px;
     display: block;
     margin: 0 auto;
   }
@@ -72,7 +72,8 @@
     margin-top: 20px;
     border: none;
     border-radius: 5px;
-    width: 800px;
+    max-width: 800px;
+    width: 100%;
     height: 50px;
     cursor: pointer;
   }

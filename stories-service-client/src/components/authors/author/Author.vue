@@ -139,4 +139,22 @@
     background-color: #9a0000;
     color: #fff;
   }
+  @media screen and (max-width: 850px) {
+    .wrapper__author-info {
+      flex-direction: column;
+    }
+    .wrapper__author-info-contacts {
+      margin-left: 0;
+      margin-top: 50px;
+    }
+    .wrapper__author-info-contacts span {
+      font-size: 16px;
+    }
+  }
+  @media screen and (max-width: 525px) {
+    .wrapper__author-info img {
+      width: 150px;
+      height: 150px;
+    }
+  }
 </style>

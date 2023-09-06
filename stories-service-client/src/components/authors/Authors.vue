@@ -84,4 +84,12 @@
     border: none;
     padding: 10px 0;
   }
+  @media screen and (max-width: 520px) {
+    .search-user-form button {
+      font-size: 14px;
+    }
+    .search-user-form input {
+      font-size: 14px;
+    }
+  }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <h1 class="horror-stories-logo">{{getTranslateByKeyLocal("system.ui.translate.main_logo").setting_value}}</h1>
+  <h1 class="stories-logo">{{getTranslateByKeyLocal("system.ui.translate.main_logo").setting_value}}</h1>
   <div class="wrapper__description">
     {{getTranslateByKeyLocal("system.ui.translate.main_logo_description").setting_value}}
   </div>
@@ -90,7 +90,7 @@
     text-decoration: none;
     color: #000;
   }
-  .horror-stories-logo {
+  .stories-logo {
     text-align: center;
     margin-top: 100px;
   }
@@ -123,5 +123,23 @@
     cursor: pointer;
     border-radius: 5px;
     padding: 5px 0;
+  }
+
+  @media screen and (max-width: 520px) {
+    .stories-logo {
+      font-size: 20px;
+    }
+    .wrapper__description {
+      font-size: 18px;
+    }
+    .search-story-form {
+      font-size: 18px;
+    }
+    .search-story-form input {
+      font-size: 14px;
+    }
+    .search-story-form button {
+      font-size: 14px;
+    }
   }
 </style>

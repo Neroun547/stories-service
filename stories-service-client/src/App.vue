@@ -5,7 +5,7 @@ import "./styles/main.css";
 </script>
 
 <template>
-  <header v-if="!mobileVersion">
+  <header v-if="!mobileVersion" class="header-nav">
     <div class="wrapper__nav">
       <nav v-if="auth">
         <RouterLink to="/">{{getTranslateByKeyLocal("system.ui.translate.nav.main").setting_value}}</RouterLink>
@@ -27,7 +27,7 @@ import "./styles/main.css";
         <RouterLink to="/authors">{{getTranslateByKeyLocal("system.ui.translate.nav.authors").setting_value}}</RouterLink>
         <RouterLink to="/auth">{{getTranslateByKeyLocal("system.ui.translate.nav.auth").setting_value}}</RouterLink>
         <RouterLink to="/signup">{{getTranslateByKeyLocal("system.ui.translate.nav.signup").setting_value}}</RouterLink>
-        <select @change="changeLanguage" v-model="selectedLanguage">
+        <select @change="changeLanguage" v-model="selectedLanguage" class="select-language">
           <option value="uk">{{getTranslateByKeyLocal("system.ui.translate.ukrainian").setting_value}}</option>
           <option value="en">{{getTranslateByKeyLocal("system.ui.translate.english").setting_value}}</option>
         </select>
@@ -45,7 +45,7 @@ import "./styles/main.css";
         </button>
         <RouterLink to="/">{{getTranslateByKeyLocal("system.ui.translate.nav.main").setting_value}}</RouterLink>
         <RouterLink to="/authors">{{getTranslateByKeyLocal("system.ui.translate.nav.authors").setting_value}}</RouterLink>
-        <select @change="changeLanguage" v-model="selectedLanguage">
+        <select @change="changeLanguage" v-model="selectedLanguage" class="select-language">
           <option value="uk">{{getTranslateByKeyLocal("system.ui.translate.ukrainian").setting_value}}</option>
           <option value="en">{{getTranslateByKeyLocal("system.ui.translate.english").setting_value}}</option>
         </select>
@@ -59,7 +59,7 @@ import "./styles/main.css";
         </button>
         <RouterLink to="/">{{getTranslateByKeyLocal("system.ui.translate.nav.main").setting_value}}</RouterLink>
         <RouterLink to="/authors">{{getTranslateByKeyLocal("system.ui.translate.nav.authors").setting_value}}</RouterLink>
-        <select @change="changeLanguage" v-model="selectedLanguage">
+        <select @change="changeLanguage" v-model="selectedLanguage" class="select-language">
           <option value="uk">{{getTranslateByKeyLocal("system.ui.translate.ukrainian").setting_value}}</option>
           <option value="en">{{getTranslateByKeyLocal("system.ui.translate.english").setting_value}}</option>
         </select>
@@ -181,6 +181,7 @@ import "./styles/main.css";
     height: 100vh;
     background-color: #000000de;
     width: 50%;
+    z-index: 3;
   }
   .wrapper__burger-menu a {
     color: #fff;
@@ -209,6 +210,7 @@ import "./styles/main.css";
     align-items: center;
     background-color: #000;
     height: 40px;
+    z-index: 3;
   }
   .wrapper__nav nav {
     width: 100%;
@@ -237,6 +239,41 @@ import "./styles/main.css";
       width: 70px;
       height: 70px;
       border-radius: 50%;
+    }
+  }
+  @media screen and (max-width: 1025px) {
+    .wrapper__content {
+      padding: 10px;
+    }
+    .select-language {
+      margin-right: 10px;
+    }
+    .burger-menu-button {
+      margin-left: 10px;
+    }
+  }
+  @media screen and (max-width: 520px) {
+    .wrapper__nav a {
+      font-size: 14px;
+    }
+    .wrapper__nav select {
+      font-size: 14px;
+    }
+    .exit-btn {
+      font-size: 14px;
+      margin-right: 10px;
+    }
+  }
+  @media screen and (max-width: 340px) {
+    .wrapper__nav a {
+      font-size: 12px;
+    }
+    .wrapper__nav select {
+      font-size: 12px;
+    }
+    .exit-btn {
+      font-size: 12px;
+      margin-right: 10px;
     }
   }
 </style>

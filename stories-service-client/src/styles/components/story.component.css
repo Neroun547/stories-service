@@ -68,3 +68,9 @@
     padding-top: 20px;
     padding-bottom: 20px;
 }
+
+@media screen and (max-width: 520px) {
+    .wrapper__stories-item-read-btn {
+        font-size: 18px;
+    }
+}

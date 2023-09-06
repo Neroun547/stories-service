@@ -102,7 +102,7 @@ export default {
   }
   .wrapper__my-stories-item {
     background-color: #e5e5e5;
-    width: 100%;
+    width: auto;
     border-radius: 5px;
     margin-top: 50px;
     margin-bottom: 30px;
@@ -145,5 +145,42 @@ export default {
     border-radius: 5px;
     padding: 5px 10px;
     margin-right: 10px;
+  }
+
+  @media screen and (max-width: 865px) {
+    .wrapper__my-stories {
+      width: auto;
+    }
+    .wrapper__my-stories-item-title {
+      font-size: 20px;
+    }
+    .wrapper__my-stories-item-theme {
+      font-size: 18px;
+    }
+    .wrapper__my-stories-item-delete-btn {
+      font-size: 16px;
+    }
+    .wrapper__my-stories-item-read-btn {
+      font-size: 16px;
+    }
+    .publish-stories-button {
+      width: 100px;
+      height: 100px;
+    }
+    .publish-stories-button img {
+      width: 60px;
+      height: 60px;
+    }
+  }
+
+  @media screen and (max-width: 520px) {
+    .publish-stories-button {
+      width: 80px;
+      height: 80px;
+    }
+    .publish-stories-button img {
+      width: 50px;
+      height: 50px;
+    }
   }
 </style>
