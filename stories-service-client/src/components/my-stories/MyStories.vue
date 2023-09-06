@@ -48,6 +48,7 @@ export default {
         return getTranslateByKey(key);
       },
       async deleteStoryByHash(hash) {
+        this.lazyLoading.skip -= 1;
         await this.axios.delete("/stories/" + hash);
 
         this.stories = this.stories.filter(el => el.story_hash !== hash);
