@@ -43,6 +43,16 @@
       getTranslateByKeyLocal(key) {
         return getTranslateByKey(key);
       }
+    },
+    async mounted() {
+      try {
+        await this.axios.get("/auth/user-info");
+      } catch(e) {
+
+        if(e.response.status === 401) {
+          window.location.href = "/auth";
+        }
+      }
     }
   }
 </script>

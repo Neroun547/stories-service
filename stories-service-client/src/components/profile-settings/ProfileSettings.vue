@@ -79,12 +79,19 @@
       }
     },
     async beforeMount() {
-      const response = await this.axios.get("/auth/user-info");
+      try {
+        const response = await this.axios.get("/auth/user-info");
 
-      this.user.name = response.data.name;
-      this.user.username = response.data.username;
-      this.user.email = response.data.email;
-      this.userAvatar = response.data.avatar;
+        this.user.name = response.data.name;
+        this.user.username = response.data.username;
+        this.user.email = response.data.email;
+        this.userAvatar = response.data.avatar;
+      } catch(e) {
+
+        if(e.response.status === 401) {
+          window.location.href = "/auth";
+        }
+      }
     },
     methods: {
       async deleteCurrentAvatar() {

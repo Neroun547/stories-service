@@ -43,12 +43,18 @@
       }
     },
     async mounted() {
-      this.authors = (await this.axios.get(`/users/subscribes/?count=${this.lazyLoading.count}&skip=${this.lazyLoading.skip}`)).data;
+      try {
+        this.authors = (await this.axios.get(`/users/subscribes/?count=${this.lazyLoading.count}&skip=${this.lazyLoading.skip}`)).data;
 
-      if(this.authors.length < this.lazyLoading.count) {
-        this.lazyLoading.skip = 0;
-      } else {
-        this.lazyLoading.skip = 5;
+        if (this.authors.length < this.lazyLoading.count) {
+          this.lazyLoading.skip = 0;
+        } else {
+          this.lazyLoading.skip = 5;
+        }
+      } catch(e) {
+        if(e.response.status === 401) {
+          window.location.href = "/auth";
+        }
       }
     }
   }

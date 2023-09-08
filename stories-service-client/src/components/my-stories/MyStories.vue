@@ -79,12 +79,18 @@ export default {
       }
     },
     async mounted() {
-      this.stories = (await this.axios.get(`/stories/my-stories/?count=${this.lazyLoading.count}&skip=${this.lazyLoading.skip}`)).data;
+      try {
+        this.stories = (await this.axios.get(`/stories/my-stories/?count=${this.lazyLoading.count}&skip=${this.lazyLoading.skip}`)).data;
 
-      if(this.stories.length === this.lazyLoading.count) {
-        this.lazyLoading.skip += 5;
-      } else {
-        this.lazyLoading.skip = 0;
+        if (this.stories.length === this.lazyLoading.count) {
+          this.lazyLoading.skip += 5;
+        } else {
+          this.lazyLoading.skip = 0;
+        }
+      } catch(e) {
+        if(e.response.status === 401) {
+          window.location.href = "/auth";
+        }
       }
     }
   }
