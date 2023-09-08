@@ -1,8 +1,8 @@
 <template>
   <div class="wrapper__stories-editor mt-50">
     <form @submit="saveStory">
-      <input type="text" :placeholder="getTranslateByKeyLocal('system.ui.translate.title').setting_value + ':'" v-model="title">
-      <input type="text" :placeholder="getTranslateByKeyLocal('system.ui.translate.theme').setting_value + ':'" v-model="theme">
+      <input type="text" :placeholder="getTranslateByKeyLocal('system.ui.translate.title').setting_value + ':'" v-model="title" required>
+      <input type="text" :placeholder="getTranslateByKeyLocal('system.ui.translate.theme').setting_value + ':'" v-model="theme" required>
       <Editor
           api-key="fqqboid3jj5dviefd7qko96da2nnz3run5y6af5t891srayh"
           :init="{
@@ -32,13 +32,15 @@
       async saveStory(e) {
         e.preventDefault();
 
-        await this.axios.post("/stories/", {
-          story: this.story,
-          title: this.title,
-          theme: this.theme
-        });
+        if(this.story.length) {
+          await this.axios.post("/stories/", {
+            story: this.story,
+            title: this.title,
+            theme: this.theme
+          });
 
-        window.location.href = "/my-stories"
+          window.location.href = "/my-stories"
+        }
       },
       getTranslateByKeyLocal(key) {
         return getTranslateByKey(key);

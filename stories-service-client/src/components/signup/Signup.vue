@@ -39,7 +39,11 @@
 
           window.location.href = "/auth";
         } catch(e) {
-          this.signupError = e.response.data.message;
+          if(typeof e.response.data.message === "object") {
+            this.signupError = getTranslateByKey(e.response.data.message[0]).setting_value;
+          } else {
+            this.signupError = getTranslateByKey(e.response.data.message).setting_value;
+          }
         }
       }
     }

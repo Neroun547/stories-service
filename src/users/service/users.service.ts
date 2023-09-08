@@ -47,38 +47,43 @@ export class UsersService {
             }
         }
         if(avatar && (avatar.mimetype !== "image/jpg" && avatar.mimetype !== "image/png" && avatar.mimetype !== "image/jpeg")) {
-            throw new BadRequestException({ message: "Invalid file type" });
+            throw new BadRequestException({ message: "system.ui.translate.error.invalid_file_extension" });
         }
         const userWithTheSameEmailOrUsername = (await this.usersServiceDb.getUserByUsernameOrEmail(newParams.username, newParams.email)).filter((el) => el.id !== userId);
 
         if(userWithTheSameEmailOrUsername.length && userWithTheSameEmailOrUsername[0].email === newParams.email) {
-            throw new BadRequestException({ message: "User with the same email already exists" });
+            throw new BadRequestException({ message: "system.ui.translate.error.user_with_this_email_already_exists" });
         }
         if(userWithTheSameEmailOrUsername.length && userWithTheSameEmailOrUsername[0].username === newParams.username) {
-            throw new BadRequestException({ message: "User with the same username already exists" });
+            throw new BadRequestException({ message: "system.ui.translate.error.user_with_this_username_already_exists" });
         }
         if(newParams.oldPassword && newParams.newPassword) {
             const verifyPassword = await argon2.verify(user.password, newParams.oldPassword);
 
             if (!verifyPassword) {
-                throw new BadRequestException( { message: "Invalid old password" });
+                throw new BadRequestException( { message: "system.ui.translate.error.invalid_old_password" });
             }
             await this.usersServiceDb.changeUserParamsById(userId, {
                 name: newParams.name,
                 username: newParams.username,
                 email: newParams.email,
                 password: await argon2.hash(newParams.newPassword),
-                avatar: avatarName
+                avatar: avatarName ? avatarName : user.avatar
             });
         } else {
             await this.usersServiceDb.changeUserParamsById(userId, {
                 name: newParams.name,
                 username: newParams.username,
                 email: newParams.email,
-                avatar: avatarName
+                avatar: avatarName ? avatarName : user.avatar
             });
         }
-        return await this.jwtService.signAsync({ id: userId, name: newParams.name, username: newParams.username, email: newParams.email, avatar: avatarName }, { secret: JWT_CONSTANTS.secret });
+        return await this.jwtService.signAsync({
+            id: userId, name: newParams.name,
+            username: newParams.username,
+            email: newParams.email,
+            avatar: avatarName ? avatarName : user.avatar
+        }, { secret: JWT_CONSTANTS.secret });
     }
 
     async getUserByUsernameOrEmail(usernameOrEmail: string, skip: number, count: number) {

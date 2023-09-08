@@ -15,10 +15,10 @@ export class SignupService {
         const userInDb = await this.usersServiceDb.getUserByUsernameOrEmail(user.username, user.email);
 
         if(userInDb.length && userInDb[0].email.toLowerCase() === user.email.toLowerCase()) {
-            throw new BadRequestException({ message: "User with the same email already exists" });
+            throw new BadRequestException({ message: "system.ui.translate.error.user_with_this_email_already_exists" });
         }
         if(userInDb.length && userInDb[0].username.toLowerCase() === user.username.toLowerCase()) {
-            throw new BadRequestException({ message: "User with the same username already exists" });
+            throw new BadRequestException({ message: "system.ui.translate.error.user_with_this_username_already_exists" });
         }
         const passwordHash = await argon2.hash(user.password);
 

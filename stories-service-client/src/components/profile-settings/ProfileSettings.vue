@@ -10,15 +10,15 @@
   </div>
   <button class="m0-auto remove-current-avatar-btn" @click="deleteCurrentAvatar">{{getTranslateByKeyLocal("system.ui.translate.profile_settings.remove_current_avatar").setting_value}}</button>
   <form class="form__component mt-100" @submit="changeProfileSettings">
-    <input type="text" :placeholder="getTranslateByKeyLocal('system.ui.translate.profile_settings.new_name').setting_value" v-model="user.name">
-    <input type="text" :placeholder="getTranslateByKeyLocal('system.ui.translate.profile_settings.new_username').setting_value" v-model="user.username">
-    <input type="email" :placeholder="getTranslateByKeyLocal('system.ui.translate.profile_settings.new_email').setting_value" v-model="user.email">
+    <input type="text" :placeholder="getTranslateByKeyLocal('system.ui.translate.profile_settings.new_name').setting_value" v-model="user.name" required>
+    <input type="text" :placeholder="getTranslateByKeyLocal('system.ui.translate.profile_settings.new_username').setting_value" v-model="user.username" required>
+    <input type="email" :placeholder="getTranslateByKeyLocal('system.ui.translate.profile_settings.new_email').setting_value" v-model="user.email" required>
 
     <button @click="showChangePasswordInputs" type="button">{{getTranslateByKeyLocal('system.ui.translate.profile_settings.change_password').setting_value}}</button>
 
     <div class="change-password-inputs" v-if="showChangePasswordInputsState">
-      <input type="password" :placeholder="getTranslateByKeyLocal('system.ui.translate.profile_settings.write_old_password').setting_value" v-model="user.oldPassword">
-      <input type="password" :placeholder="getTranslateByKeyLocal('system.ui.translate.profile_settings.write_new_password').setting_value" v-model="user.newPassword">
+      <input type="password" :placeholder="getTranslateByKeyLocal('system.ui.translate.profile_settings.write_old_password').setting_value" v-model="user.oldPassword" required>
+      <input type="password" :placeholder="getTranslateByKeyLocal('system.ui.translate.profile_settings.write_new_password').setting_value" v-model="user.newPassword" required>
     </div>
 
     <button type="submit">{{getTranslateByKeyLocal("system.ui.translate.save_changes").setting_value}}</button>
@@ -140,9 +140,11 @@
           formData.append("name", this.user.name);
           formData.append("username", this.user.username);
           formData.append("email", this.user.email);
-          formData.append("oldPassword", this.user.oldPassword);
-          formData.append("newPassword", this.user.newPassword);
 
+          if(this.user.oldPassword.trim() && this.user.newPassword.trim()) {
+            formData.append("oldPassword", this.user.oldPassword);
+            formData.append("newPassword", this.user.newPassword);
+          }
           if(this.userAvatar) {
             formData.append("avatar", this.userAvatar);
           }
@@ -152,7 +154,12 @@
 
           window.location.href = "/";
         } catch(e) {
-          this.profileSettingsError = e.response.data.message;
+
+          if(typeof e.response.data.message === "object") {
+            this.profileSettingsError = getTranslateByKey(e.response.data.message[0]).setting_value;
+          } else {
+            this.profileSettingsError = getTranslateByKey(e.response.data.message).setting_value;
+          }
         }
       }
     }

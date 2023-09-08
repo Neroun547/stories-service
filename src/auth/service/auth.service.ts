@@ -16,7 +16,7 @@ export class AuthService {
         const userInDb = JSON.parse(JSON.stringify(await this.usersServiceDb.getUserByUsernameOrEmail(user.usernameOrEmail, user.usernameOrEmail)));
 
         if(!userInDb.length) {
-            throw new NotFoundException({ message: "User with this email or username not found" });
+            throw new NotFoundException({ message: "system.ui.translate.error.user_with_this_params_not_found" });
         }
         const checkPassword = await argon2.verify(userInDb[0].password, user.password);
 
@@ -25,6 +25,6 @@ export class AuthService {
 
             return { token: await this.jwtService.signAsync(userInDb[0], { secret: JWT_CONSTANTS.secret }), avatar: userInDb[0].avatar };
         }
-        throw new ForbiddenException({ message: "Wrong password" });
+        throw new ForbiddenException({ message: "system.ui.translate.error.wrong_password" });
     }
 }

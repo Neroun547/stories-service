@@ -25,7 +25,7 @@ export class UsersController {
     @Patch()
     async changeUsersParams(
         @Req() req: Request,
-        @Body() body,
+        @Body() body: ChangeUsersParamsDto,
         @UploadedFile() avatar: Express.Multer.File
     ) {
         return { token: await this.usersService.changeUserParamsById(req["user"].id, body, avatar) };

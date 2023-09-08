@@ -41,7 +41,11 @@ export default {
 
         window.location.href = "/";
       } catch(e) {
-        this.authError = e.response.data.message;
+        if(typeof e.response.data.message === "object") {
+          this.authError = getTranslateByKey(e.response.data.message[0]).setting_value;
+        } else {
+          this.authError = getTranslateByKey(e.response.data.message).setting_value;
+        }
       }
     }
   }
