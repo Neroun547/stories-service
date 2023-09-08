@@ -27,7 +27,7 @@ export class StoriesController {
         @Query("skip", new ParseIntPipe()) skip: number,
         @Query("count", new ParseIntPipe()) count: number
     ) {
-        return await this.storiesService.getStoriesByUserId(id, count, skip, "DESC");
+        return await this.storiesService.getStoriesByUserId(id, count, skip, "start_new");
     }
 
     @Get("search-by-theme-or-title/:themeOrTitle")

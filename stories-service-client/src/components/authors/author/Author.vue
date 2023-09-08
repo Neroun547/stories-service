@@ -7,9 +7,9 @@
       <span>{{user.username}}</span>
       <span>{{user.email}}</span>
 
-      <button class="subscribe-btn" @click="addSubscribe" v-if="!alreadySubscribed">{{getTranslateByKeyLocal("system.ui.translate.subscribe").setting_value}}</button>
-      <span class="already-subscribed-span" v-if="alreadySubscribed">{{getTranslateByKeyLocal("system.ui.translate.already_subscribed").setting_value}}</span>
-      <button v-if="alreadySubscribed" @click="removeSubscribe" class="remove-subscribe-btn">{{getTranslateByKeyLocal("system.ui.translate.unsubscribe").setting_value}}</button>
+      <button class="subscribe-btn" @click="addSubscribe" v-if="!alreadySubscribed && auth">{{getTranslateByKeyLocal("system.ui.translate.subscribe").setting_value}}</button>
+      <span class="already-subscribed-span" v-if="alreadySubscribed && auth">{{getTranslateByKeyLocal("system.ui.translate.already_subscribed").setting_value}}</span>
+      <button v-if="alreadySubscribed && auth" @click="removeSubscribe" class="remove-subscribe-btn">{{getTranslateByKeyLocal("system.ui.translate.unsubscribe").setting_value}}</button>
     </div>
   </div>
   <div class="wrapper__stories mt-50">
@@ -40,6 +40,7 @@
       return {
         user: {},
         alreadySubscribed: false,
+        auth: true,
         stories: [],
         lazyLoading: {
           count: 5,
@@ -76,13 +77,14 @@
     async mounted () {
       this.user = (await this.axios.get("/users/" + this.$route.params.id)).data;
       this.stories = (await this.axios.get(`/stories/author-stories/${this.$route.params.id}/?count=${this.lazyLoading.count}&skip=${this.lazyLoading.skip}`)).data;
-      const userSubscribe = (await this.axios.get("/users/subscribe-user-by-author-id/" + this.$route.params.id)).data;
+      let userSubscribe;
 
-      if(userSubscribe) {
-        this.alreadySubscribed = true;
-      } else {
-        this.alreadySubscribed = false;
+      try {
+        userSubscribe = (await this.axios.get("/users/subscribe-user-by-author-id/" + this.$route.params.id)).data;
+      } catch {
+        this.auth = false;
       }
+      this.alreadySubscribed = !!userSubscribe;
       if(this.stories.length < this.lazyLoading.count) {
         this.lazyLoading.skip = 0;
       } else {
