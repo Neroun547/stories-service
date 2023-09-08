@@ -1,10 +1,14 @@
 <template>
   <h2 class="profile-settings-logo mt-100">{{getTranslateByKeyLocal("system.ui.translate.profile_settings").setting_value}}</h2>
   <div class="profile-settings-avatar">
-    <img :src="'/avatars/' + userAvatar" alt="Avatar" v-if="userAvatar">
-    <img src="/profile.png" alt="Avatar" v-if="!userAvatar">
+    <img :src="'/avatars/' + userAvatar" alt="Avatar" v-if="userAvatar && !showPreselectedAvatar">
+    <img src="/profile.png" alt="Avatar" v-if="!userAvatar && !showPreselectedAvatar">
+    <div class="wrapper__preselected-avatar">
+
+    </div>
     <input type="file" @change="changeAvatar">
   </div>
+  <button class="m0-auto remove-current-avatar-btn" @click="deleteCurrentAvatar">{{getTranslateByKeyLocal("system.ui.translate.profile_settings.remove_current_avatar").setting_value}}</button>
   <form class="form__component mt-100" @submit="changeProfileSettings">
     <input type="text" :placeholder="getTranslateByKeyLocal('system.ui.translate.profile_settings.new_name').setting_value" v-model="user.name">
     <input type="text" :placeholder="getTranslateByKeyLocal('system.ui.translate.profile_settings.new_username').setting_value" v-model="user.username">
@@ -24,6 +28,16 @@
   </div>
 </template>
 <style scoped>
+  .remove-current-avatar-btn {
+    margin-top: 100px;
+    padding: 5px;
+    display: block;
+    background-color: #9a0000;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+  }
   .profile-settings-logo {
     text-align: center;
   }
@@ -60,7 +74,8 @@
           newPassword: ""
         },
         userAvatar: null,
-        showChangePasswordInputsState: false
+        showChangePasswordInputsState: false,
+        showPreselectedAvatar: false
       }
     },
     async beforeMount() {
@@ -72,8 +87,36 @@
       this.userAvatar = response.data.avatar;
     },
     methods: {
+      async deleteCurrentAvatar() {
+        const newToken = (await this.axios.delete("/users/avatar")).data.authToken;
+
+        localStorage.setItem("authToken", newToken);
+
+        window.location.reload();
+      },
       changeAvatar(e) {
-        this.userAvatar = e.target.files[0]
+        this.showPreselectedAvatar = true;
+        this.userAvatar = e.target.files[0];
+
+        const avatar = URL.createObjectURL(this.userAvatar);
+        const preselectedAvatar = document.querySelector(".preselected-avatar");
+
+        if(preselectedAvatar) {
+          preselectedAvatar.remove();
+        }
+        const img = document.createElement("img");
+
+        img.classList.add("preselected-avatar");
+
+        img.style.display = "block";
+        img.style.width = "200px";
+        img.style.height = "200px";
+        img.style.margin = "0 auto";
+        img.style.borderRadius = "50%";
+
+        img.src = avatar;
+
+        document.querySelector(".wrapper__preselected-avatar").appendChild(img);
       },
       getTranslateByKeyLocal(key) {
         return getTranslateByKey(key);

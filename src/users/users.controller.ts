@@ -31,6 +31,12 @@ export class UsersController {
         return { token: await this.usersService.changeUserParamsById(req["user"].id, body, avatar) };
     }
 
+    @UseGuards(AuthGuard)
+    @Delete("avatar")
+    async deleteCurrentAvatar(@Req() req: Request) {
+        return { authToken: await this.usersService.deleteUserAvatarByUserId(req["user"].id) };
+    }
+
     @Get("search-by-username-or-email/:usernameOrEmail")
     async getUserByUsernameOrEmail(
         @Param("usernameOrEmail") usernameOrEmail: string,

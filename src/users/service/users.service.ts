@@ -125,4 +125,17 @@ export class UsersService {
     async changeUserLanguageById(userId: number, language: string) {
         await this.usersServiceDb.changeUserLanguageById(userId, language);
     }
+
+    async deleteUserAvatarByUserId(userId: number): Promise<string> {
+        const user = await this.usersServiceDb.getUserById(userId);
+
+        try {
+            await unlink("stories-service-client/public/avatars/" + user.avatar)
+        } catch(e) {
+            throw new NotFoundException({ message: "Avatar not found" });
+        }
+        await this.usersServiceDb.changeUserParamsById(userId, { ...user, avatar: null });
+
+        return await this.jwtService.signAsync({ id: userId, name: user.name, username: user.username, email: user.email, avatar: null }, { secret: JWT_CONSTANTS.secret });
+    }
 }

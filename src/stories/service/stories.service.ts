@@ -26,9 +26,18 @@ export class StoriesService {
 
         await writeFile(resolve("stories/" + storyHash + ".html"), story.story);
     }
-    async getStoriesByUserId(userId: number, count: number, skip: number) {
-        const serializeData = JSON.parse(JSON.stringify(await this.storiesServiceDb.getStoriesAndAuthorByAuthorIdDESCCreatedAt(userId, count, skip)));
+    async getStoriesByUserId(userId: number, count: number, skip: number, orderBy: string) {
+        let serializeData;
 
+        if(orderBy === "start_new" || !orderBy) {
+            serializeData = JSON.parse(JSON.stringify(await this.storiesServiceDb.getStoriesAndAuthorByAuthorIdOrderByCreatedAt(userId, count, skip, "DESC")));
+        }
+        if(orderBy === "start_old") {
+            serializeData = JSON.parse(JSON.stringify(await this.storiesServiceDb.getStoriesAndAuthorByAuthorIdOrderByCreatedAt(userId, count, skip, "ASC")));
+        }
+        if(!serializeData) {
+            throw new NotFoundException({ message: "Stories not found" });
+        }
         return serializeData.map(el => ({ ...el, author: { username: el.author.username } }));
     }
     async deleteStoryByAuthorIdAndHash(authorId: number, hash) {

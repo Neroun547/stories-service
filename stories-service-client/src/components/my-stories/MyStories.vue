@@ -10,6 +10,13 @@
     <h2 class="no-stories-logo mt-50">{{getTranslateByKeyLocal("system.ui.translate.my_stories.no_stories_logo").setting_value}}</h2>
   </div>
   <div v-if="stories.length" class="wrapper__my-stories">
+    <div class="wrapper__order-by">
+      <h2>{{getTranslateByKeyLocal("system.ui.translate.my_stories.sort").setting_value}}</h2>
+      <select v-model="orderByState" @change="orderBy">
+        <option value="start_new">{{getTranslateByKeyLocal("system.ui.translate.my_stories.start_from_new").setting_value}}</option>
+        <option value="start_old">{{getTranslateByKeyLocal("system.ui.translate.my_stories.start_from_old").setting_value}}</option>
+      </select>
+    </div>
     <div v-for="story in stories" class="wrapper__my-stories-item">
       <h1 class="wrapper__my-stories-item-title">{{story.title}}</h1>
       <h3 class="wrapper__my-stories-item-theme">{{getTranslateByKeyLocal("system.ui.translate.theme").setting_value}}: {{story.theme}}</h3>
@@ -40,10 +47,16 @@ export default {
         lazyLoading: {
           count: 5,
           skip: 0
-        }
+        },
+        orderByState: "start_new"
       }
     },
     methods: {
+      async orderBy() {
+        this.stories = (await this.axios.get(`/stories/my-stories/?count=5&skip=0&orderBy=${this.orderByState}`)).data;
+
+        this.lazyLoading.skip = 5;
+      },
       getTranslateByKeyLocal(key) {
         return getTranslateByKey(key);
       },
@@ -54,7 +67,7 @@ export default {
         this.stories = this.stories.filter(el => el.story_hash !== hash);
       },
       async loadMore() {
-        const data = (await this.axios.get(`/stories/my-stories/?count=${this.lazyLoading.count}&skip=${this.lazyLoading.skip}`)).data;
+        const data = (await this.axios.get(`/stories/my-stories/?count=${this.lazyLoading.count}&skip=${this.lazyLoading.skip}&orderBy=${this.orderByState}`)).data;
 
         this.stories.push(...data);
 

@@ -27,7 +27,7 @@ export class StoriesController {
         @Query("skip", new ParseIntPipe()) skip: number,
         @Query("count", new ParseIntPipe()) count: number
     ) {
-        return await this.storiesService.getStoriesByUserId(id, count, skip);
+        return await this.storiesService.getStoriesByUserId(id, count, skip, "DESC");
     }
 
     @Get("search-by-theme-or-title/:themeOrTitle")
@@ -41,8 +41,13 @@ export class StoriesController {
 
     @UseGuards(AuthGuard)
     @Get("my-stories")
-    async getUserStories(@Req() req: Request, @Query("skip", new ParseIntPipe()) skip: number, @Query("count", new ParseIntPipe()) count: number) {
-        return await this.storiesService.getStoriesByUserId(req["user"].id, count, skip);
+    async getUserStories(
+        @Req() req: Request,
+        @Query("skip", new ParseIntPipe()) skip: number,
+        @Query("count", new ParseIntPipe()) count: number,
+        @Query("orderBy") orderBy: string
+    ) {
+        return await this.storiesService.getStoriesByUserId(req["user"].id, count, skip, orderBy);
     }
 
     @Get("get-story-info/:hash")

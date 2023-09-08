@@ -18,10 +18,10 @@ export class StoriesServiceDb {
            updated_at: story.updated_at
         });
     }
-    async getStoriesAndAuthorByAuthorIdDESCCreatedAt(authorId: number, count: number, skip: number) {
+    async getStoriesAndAuthorByAuthorIdOrderByCreatedAt(authorId: number, count: number, skip: number, orderBy: string) {
         return await this.storiesRepository.find(
             { author_id: authorId },
-            { populate: ["author"], orderBy: { created_at: "DESC" }, limit: count, offset: skip }
+            { populate: ["author"], orderBy: { created_at: orderBy }, limit: count, offset: skip }
         );
     }
     async deleteStoryByAuthorIdAndHashAndReturn(authorId: number, hash: string) {
