@@ -33,9 +33,10 @@ export class StoriesServiceDb {
     async getStoriesAndAuthorsDESCCreatedAt(count: number, skip: number) {
         return await this.storiesRepository.find({}, { offset: skip, limit: count, populate: ["author"], orderBy: { created_at: "DESC" } });
     }
-    async getStoriesLikeThemeOrTitle(titleOrTheme: string, count: number, skip: number) {
+    async getStoriesAndAuthorLikeThemeOrTitle(titleOrTheme: string, count: number, skip: number) {
         return await this.storiesRepository
             .createQueryBuilder()
+            .joinAndSelect("author", "a")
             .where("title LIKE ?", ["%" + titleOrTheme + "%"])
             .orWhere("theme LIKE ?", ["%" + titleOrTheme + "%"])
             .limit(count)

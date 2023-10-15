@@ -63,8 +63,13 @@
         }
       },
       async loadMore() {
-        const data = (await this.axios.get(`/stories/?count=${this.lazyLoading.count}&skip=${this.lazyLoading.skip}`)).data;
+        let data;
 
+        if(this.themeOrTitle && this.themeOrTitle.replaceAll(" ", "").length) {
+          data = (await this.axios.get("/stories/search-by-theme-or-title/" + this.themeOrTitle.replaceAll(" ", "") + `/?count=${this.lazyLoading.count}&skip=${this.lazyLoading.skip}`)).data;
+        } else {
+          data = (await this.axios.get(`/stories/?count=${this.lazyLoading.count}&skip=${this.lazyLoading.skip}`)).data;
+        }
         this.stories.push(...data);
 
         if(data.length < this.lazyLoading.count) {

@@ -2,7 +2,7 @@
   <div>
     <RouterLink to="/my-stories/publish-stories">
       <button class="publish-stories-button">
-        <img src="../../../public/publish.png" alt="Publish stories">
+        <img src="/publish.png" alt="Publish stories">
       </button>
     </RouterLink>
   </div>
@@ -55,7 +55,11 @@ export default {
       async orderBy() {
         this.stories = (await this.axios.get(`/stories/my-stories/?count=5&skip=0&orderBy=${this.orderByState}`)).data;
 
-        this.lazyLoading.skip = 5;
+        if(this.stories.length === 5) {
+          this.lazyLoading.skip = 5;
+        } else {
+          this.lazyLoading.skip = 0;
+        }
       },
       getTranslateByKeyLocal(key) {
         return getTranslateByKey(key);

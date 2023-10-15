@@ -4,7 +4,6 @@ import {SaveStoryDto} from "../dto/save-story.dto";
 import {CommonService} from "../../../common/common.service";
 import { writeFile, readFile, unlink } from "fs/promises";
 import { resolve } from "path";
-import * as Moment from "moment";
 
 @Injectable()
 export class StoriesService {
@@ -63,6 +62,6 @@ export class StoriesService {
         return (await this.storiesServiceDb.getStoriesAndAuthorsDESCCreatedAt(count, skip)).map(el => ({ ...el, author: { username: el.author.username, email: el.author.email } }));
     }
     async getStoriesByThemeOrTitle(themeOrTitle: string, count: number, skip: number) {
-        return await this.storiesServiceDb.getStoriesLikeThemeOrTitle(themeOrTitle, count, skip);
+        return await this.storiesServiceDb.getStoriesAndAuthorLikeThemeOrTitle(themeOrTitle, count, skip);
     }
 }
