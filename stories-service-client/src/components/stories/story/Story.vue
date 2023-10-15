@@ -24,9 +24,9 @@
 </script>
 <style scoped>
   .wrapper__story {
-    display: flex;
+    display: block;
     margin: 0 auto;
-    width: 80%;
+    width: 90%;
   }
   .story-title {
     text-align: center;

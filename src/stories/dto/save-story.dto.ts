@@ -10,6 +10,6 @@ export class SaveStoryDto {
     title: string;
 
     @IsString()
-    @Length(1, 25)
+    @Length(1, 255)
     theme: string;
 }

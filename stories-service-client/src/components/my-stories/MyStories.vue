@@ -34,7 +34,7 @@
     </div>
   </div>
 
-  <button @click="loadMore" v-if="lazyLoading.skip" class="load-more-btn m0-auto mb-100">{{getTranslateByKeyLocal("system.ui.translate.load_more").setting_value}}</button>
+  <button @click="loadMore" v-if="lazyLoading.skip > 0" class="load-more-btn m0-auto mb-100">{{getTranslateByKeyLocal("system.ui.translate.load_more").setting_value}}</button>
 </template>
 <script>
 import "../../styles/components/load-more-btn.css";
