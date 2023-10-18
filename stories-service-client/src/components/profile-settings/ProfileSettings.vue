@@ -21,7 +21,7 @@
       <input type="password" :placeholder="getTranslateByKeyLocal('system.ui.translate.profile_settings.write_new_password').setting_value" v-model="user.newPassword" required>
     </div>
 
-    <button type="submit">{{getTranslateByKeyLocal("system.ui.translate.save_changes").setting_value}}</button>
+    <button type="submit">{{getTranslateByKeyLocal("system.ui.translate.save_settings").setting_value}}</button>
   </form>
   <div class="form__component-error-message" v-if="profileSettingsError">
     {{profileSettingsError}}

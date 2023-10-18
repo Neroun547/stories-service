@@ -1,7 +1,8 @@
-import {Entity, ManyToOne, PrimaryKey, Property} from "@mikro-orm/core";
+import {Collection, Entity, ManyToOne, OneToMany, PrimaryKey, Property} from "@mikro-orm/core";
 import {Users} from "../users/users.entity";
 import {StoriesInterface} from "./interfaces/stories.interface";
 import { DateType } from "../types/date.type";
+import {StoriesPermissions} from "../stories-permissions/stories-permissions.entity";
 
 @Entity()
 export class Stories implements StoriesInterface {
@@ -20,6 +21,9 @@ export class Stories implements StoriesInterface {
     @Property()
     theme: string;
 
+    @Property({ default: "public" })
+    permission: string;
+
     @Property({ type: DateType })
     created_at: Date | string;
 
@@ -27,5 +31,8 @@ export class Stories implements StoriesInterface {
     updated_at: Date | string;
 
     @ManyToOne()
-    author: Users
+    author: Users;
+
+    @OneToMany({ entity: () => StoriesPermissions, mappedBy: "story", nullable: true})
+    permissions: Collection<StoriesPermissions>
 }

@@ -2,6 +2,10 @@
   font-family: 'Roboto', sans-serif;
 }
 
+.mt-10 {
+  margin-top: 10px;
+}
+
 .mt-25 {
   margin-top: 25px !important;
 }
@@ -24,4 +28,16 @@
 
 .m0-auto {
   margin: 0 auto;
+}
+
+.color-red {
+  color: #9a0000;
+}
+
+.color-green {
+  color: #2bb206;
+}
+
+.color-black {
+  color: #000;
 }

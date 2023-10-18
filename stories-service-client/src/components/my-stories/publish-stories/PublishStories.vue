@@ -17,12 +17,18 @@
         }"
           v-model="story"
       />
+      <label for="permissions-select" class="mt-25">{{getTranslateByKeyLocal('system.ui.translate.story_permission').setting_value}}:</label>
+      <select v-model="permission" id="permissions-select" class="mt-10">
+        <option value="public">{{getTranslateByKeyLocal('system.ui.translate.public').setting_value}}</option>
+        <option value="private">{{getTranslateByKeyLocal('system.ui.translate.private').setting_value}}</option>
+      </select>
       <button class="publish-story-btn" type="submit">{{getTranslateByKeyLocal('system.ui.translate.publish_story').setting_value}}</button>
     </form>
   </div>
 </template>
 <script setup>
   import Editor from '@tinymce/tinymce-vue'
+  import "../../../styles/components/publish-story.component.css";
 </script>
 <script>
   import { getTranslateByKey } from "../../common/getTranslateByKey.js";
@@ -32,7 +38,8 @@
       return {
         story: "",
         title: "",
-        theme: ""
+        theme: "",
+        permission: "public"
       }
     },
     methods: {
@@ -72,7 +79,8 @@
           await this.axios.post("/stories/", {
             story: this.story,
             title: this.title,
-            theme: this.theme
+            theme: this.theme,
+            permission: this.permission
           });
 
           window.location.href = "/my-stories"
@@ -94,35 +102,3 @@
     }
   }
 </script>
-<style>
-  .wrapper__stories-editor {
-    max-width: 1000px;
-    display: block;
-    margin: 0 auto;
-  }
-  .wrapper__stories-editor form {
-    display: flex;
-    flex-direction: column;
-  }
-  .wrapper__stories-editor form input {
-    border: none;
-    border-bottom: 1px solid #000;
-    outline: none;
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-  .wrapper__stories-editor textarea {
-    height: 800px;
-  }
-  .publish-story-btn {
-    display: block;
-    margin: 0 auto;
-    margin-top: 20px;
-    border: none;
-    border-radius: 5px;
-    max-width: 800px;
-    width: 100%;
-    height: 50px;
-    cursor: pointer;
-  }
-</style>

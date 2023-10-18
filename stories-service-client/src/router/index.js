@@ -9,6 +9,9 @@ import Story from "../components/stories/story/Story.vue";
 import Authors from "../components/authors/Authors.vue";
 import Author from "../components/authors/author/Author.vue";
 import MySubscribes from "../components/my-subscribes/MySubscribes.vue";
+import ChangeParamsStory from "../components/my-stories/change-params/ChangeParams.vue";
+import EditStory from "../components/my-stories/change-params/edit-story/EditStory.vue";
+import ChangePermissions from "../components/my-stories/change-params/change-permissions/ChangePermissions.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -37,6 +40,21 @@ const router = createRouter({
       path: "/my-stories",
       name: "my-stories",
       component: MyStories
+    },
+    {
+      path: "/my-stories/change-params/:hash",
+      name: "change-params",
+      component: ChangeParamsStory
+    },
+    {
+      path: "/my-stories/change-params/edit-story/:hash",
+      name: "edit-story",
+      component: EditStory
+    },
+    {
+      path: "/my-stories/change-params/change-permissions/:hash",
+      name: "change-permissions",
+      component: ChangePermissions
     },
     {
       path: "/my-stories/publish-stories",

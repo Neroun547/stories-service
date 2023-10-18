@@ -18,10 +18,19 @@
       </select>
     </div>
     <div v-for="story in stories" class="wrapper__my-stories-item">
+      <RouterLink :to="'/my-stories/change-params/' + story.story_hash">
+        <button class="wrapper__my-stories-item-settings-btn">
+          <img src="/settings.png" alt="Settings">
+        </button>
+      </RouterLink>
       <h1 class="wrapper__my-stories-item-title">{{story.title}}</h1>
       <h3 class="wrapper__my-stories-item-theme">{{getTranslateByKeyLocal("system.ui.translate.theme").setting_value}}: {{story.theme}}</h3>
-      <div class="wrapper__my-stories-item-footer">
+      <footer class="wrapper__my-stories-item-footer">
         <div>
+          <div>
+            <span class="color-red" v-if="story.permission === 'private'"><p><span class="color-black">Status:</span> {{story.permission}}</p></span>
+            <span class="color-green" v-if="story.permission === 'public'"><p><span class="color-black">Status:</span> {{story.permission}}</p></span>
+          </div>
           <h5>{{story.created_at}}</h5>
         </div>
         <div class="wrapper__my-stories-item-footer-buttons">
@@ -30,7 +39,7 @@
             <button class="wrapper__my-stories-item-read-btn">{{getTranslateByKeyLocal("system.ui.translate.read").setting_value}}</button>
           </RouterLink>
         </div>
-      </div>
+      </footer>
     </div>
   </div>
 
@@ -131,6 +140,17 @@ export default {
     margin-top: 50px;
     margin-bottom: 30px;
     padding: 10px;
+  }
+  .wrapper__my-stories-item-settings-btn {
+    background-color: transparent;
+    border: none;
+    display: block;
+    margin-left: auto;
+    cursor: pointer;
+  }
+  .wrapper__my-stories-item-settings-btn img {
+    width: 30px;
+    height: 30px;
   }
   .wrapper__my-stories-item-title {
     text-align: center;

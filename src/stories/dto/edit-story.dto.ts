@@ -1,6 +1,6 @@
 import {IsString, Length} from "class-validator";
 
-export class SaveStoryDto {
+export class EditStoryDto {
     @IsString()
     @Length(1)
     story: string;
@@ -12,8 +12,4 @@ export class SaveStoryDto {
     @IsString()
     @Length(1, 255)
     theme: string;
-
-    @IsString()
-    @Length(1, 30)
-    permission: string;
 }
