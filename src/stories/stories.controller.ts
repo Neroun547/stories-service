@@ -51,7 +51,7 @@ export class StoriesController {
         @Query("skip", new ParseIntPipe()) skip: number,
         @Req() req: Request
     ) {
-        return await this.storiesService.checkStoriesPermissionsAndReturn(await this.storiesService.getStoriesByThemeOrTitle(themeOrTitle, count, skip), req);
+        return await this.storiesService.checkStoriesPermissionsAndReturn(await this.storiesService.getStoriesByThemeOrTitle(themeOrTitle, count, skip), req.headers.authorization);
     }
 
     @UseGuards(AuthGuard)
