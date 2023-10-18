@@ -2,11 +2,11 @@ import {BadRequestException, ForbiddenException, Injectable, NotFoundException} 
 import {StoriesServiceDb} from "../../../db/stories/stories.service";
 import {SaveStoryDto} from "../dto/save-story.dto";
 import {CommonService} from "../../../common/common.service";
-import { writeFile, readFile, unlink } from "fs/promises";
-import { resolve } from "path";
+import {readFile, unlink, writeFile} from "fs/promises";
+import {resolve} from "path";
 import {StoriesPermissionsServiceDb} from "../../../db/stories-permissions/stories-permissions.service";
 import {JwtService} from "@nestjs/jwt";
-import { JWT_CONSTANTS } from "../../auth/constants/constants";
+import {JWT_CONSTANTS} from "../../auth/constants/constants";
 
 @Injectable()
 export class StoriesService {
@@ -88,7 +88,7 @@ export class StoriesService {
         const storyInDb = await this.storiesServiceDb.getStoryInfoByHash(storyHash);
 
         if(storyInDb.permission === "private") {
-            if((await this.checkStoriesPermissionsAndReturn([storyInDb], jwtToken)).length) {
+            if((await this.checkStoriesPermissionsAndReturn([JSON.parse(JSON.stringify(storyInDb))], jwtToken)).length) {
                 return (await readFile(resolve("stories/" + storyHash + ".html"))).toString();
             }
             throw new ForbiddenException();
@@ -102,10 +102,12 @@ export class StoriesService {
         return { ...serializeData, author: { username: serializeData.author.username, email: serializeData.author.email } };
     }
     async getStoriesAndAuthors(count: number, skip: number) {
-        return (await this.storiesServiceDb.getStoriesAndAuthorsDESCCreatedAt(count, skip)).map(el => ({ ...el, author: { username: el.author.username, email: el.author.email } }));
+        const data = (await this.storiesServiceDb.getStoriesAndAuthorsAndPermissionsDESCCreatedAt(count, skip)).map(el => ({ ...el, author: { username: el.author.username, email: el.author.email } }))
+
+        return JSON.parse(JSON.stringify(data));
     }
     async getStoriesByThemeOrTitle(themeOrTitle: string, count: number, skip: number) {
-        return await this.storiesServiceDb.getStoriesAndAuthorLikeThemeOrTitle(themeOrTitle, count, skip);
+        return JSON.parse(JSON.stringify(await this.storiesServiceDb.getStoriesAndAuthorAndPermissionsLikeThemeOrTitle(themeOrTitle, count, skip)));
     }
     async addUsersToStoryPermissions(authorId: number, storyId: number, users: Array<number>) {
         const storyInDb = await this.storiesServiceDb.getStoryByIdAndAuthorId(authorId, storyId);

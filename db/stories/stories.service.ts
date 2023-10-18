@@ -29,15 +29,16 @@ export class StoriesServiceDb {
         return await this.storiesRepository.nativeDelete({ author_id: authorId, story_hash: hash });
     }
     async getStoryInfoByHash(hash: string) {
-        return await this.storiesRepository.findOne({ story_hash: hash }, { populate: ["author"] });
+        return await this.storiesRepository.findOne({ story_hash: hash }, { populate: ["author", "permissions"] });
     }
-    async getStoriesAndAuthorsDESCCreatedAt(count: number, skip: number) {
-        return await this.storiesRepository.find({}, { offset: skip, limit: count, populate: ["author"], orderBy: { created_at: "DESC" } });
+    async getStoriesAndAuthorsAndPermissionsDESCCreatedAt(count: number, skip: number) {
+        return await this.storiesRepository.find({}, { offset: skip, limit: count, populate: ["author", "permissions"], orderBy: { created_at: "DESC" } });
     }
-    async getStoriesAndAuthorLikeThemeOrTitle(titleOrTheme: string, count: number, skip: number) {
+    async getStoriesAndAuthorAndPermissionsLikeThemeOrTitle(titleOrTheme: string, count: number, skip: number) {
         return await this.storiesRepository
             .createQueryBuilder()
             .joinAndSelect("author", "a")
+            .joinAndSelect("permissions", "p")
             .where("title LIKE ?", ["%" + titleOrTheme + "%"])
             .orWhere("theme LIKE ?", ["%" + titleOrTheme + "%"])
             .limit(count)

@@ -4,7 +4,7 @@
     {{getTranslateByKeyLocal("system.ui.translate.main_logo_description").setting_value}}
   </div>
   <form @submit="searchStories" class="search-story-form">
-    <input type="text" placeholder="Search stories by theme or title" v-model="themeOrTitle">
+    <input type="text" :placeholder="getTranslateByKeyLocal('system.ui.translate.main.search_stories').setting_value" v-model="themeOrTitle">
     <button>{{getTranslateByKeyLocal('system.ui.translate.search').setting_value}}</button>
   </form>
   <div class="wrapper__stories">

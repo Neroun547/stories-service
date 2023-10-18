@@ -41,7 +41,7 @@ export class StoriesController {
         @Query("count", new ParseIntPipe()) count: number,
         @Req() req: Request
     ) {
-        return this.storiesService.checkStoriesPermissionsAndReturn(await this.storiesService.getStoriesByUserId(id, count, skip, "start_new"), req.headers.authorization);
+        return await this.storiesService.checkStoriesPermissionsAndReturn(await this.storiesService.getStoriesByUserId(id, count, skip, "start_new"), req.headers.authorization);
     }
 
     @Get("search-by-theme-or-title/:themeOrTitle")

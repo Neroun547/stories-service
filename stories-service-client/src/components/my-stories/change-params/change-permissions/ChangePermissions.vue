@@ -1,10 +1,10 @@
 <template>
   <div v-if="!publicStory">
-    <button @click="changeStatusStory" class="make-story-public">Make story public</button>
+    <button @click="changeStatusStory" class="make-story-public">{{getTranslateByKeyLocal("system.ui.translate.make_story_public")}}</button>
     <h2 class="change-permissions-logo">{{getTranslateByKeyLocal("system.ui.translate.my_stories.change_permissions_logo")}}</h2>
     <div class="wrapper__change-permissions">
       <div class="wrapper__change-permissions-item">
-        <h3 class="mt-100">Users who have permission:</h3>
+        <h3 class="mt-100">{{getTranslateByKeyLocal("system.ui.translate.chage_params.change_permissions.users_logo")}}:</h3>
         <div class="wrapper__change-permissions-item-users">
           <div class="wrapper__users">
             <div v-for="item in usersWhoHavePermissions" v-bind:key="item.id">
@@ -37,7 +37,7 @@
     </div>
   </div>
   <div v-if="publicStory">
-    <button class="make-story-private" @click="changeStatusStory">Make story private</button>
+    <button class="make-story-private" @click="changeStatusStory">{{getTranslateByKeyLocal("system.ui.translate.make_story_private")}}</button>
   </div>
 </template>
 <script>
