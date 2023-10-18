@@ -111,12 +111,11 @@ export default {
   .wrapper__change-permissions {
     display: flex;
     justify-content: space-between;
-    max-width: 1400px;
-    width: 100%;
+    width: 90%;
     margin: 0 auto;
   }
   .wrapper__change-permissions-item {
-    width: 40%;
+    width: 50%;
   }
   .wrapper__users-item-checkbox {
     display: block;
@@ -144,5 +143,16 @@ export default {
     margin: 0 auto;
     padding: 10px;
     cursor: pointer;
+  }
+
+
+  @media screen and (max-width: 1100px) {
+    .wrapper__change-permissions {
+      flex-direction: column-reverse;
+      align-items: center;
+    }
+    .wrapper__change-permissions-item {
+      width: 100%;
+    }
   }
 </style>
