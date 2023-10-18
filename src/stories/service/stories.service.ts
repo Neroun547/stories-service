@@ -1,4 +1,4 @@
-import {BadRequestException, Injectable, NotFoundException} from "@nestjs/common";
+import {BadRequestException, ForbiddenException, Injectable, NotFoundException} from "@nestjs/common";
 import {StoriesServiceDb} from "../../../db/stories/stories.service";
 import {SaveStoryDto} from "../dto/save-story.dto";
 import {CommonService} from "../../../common/common.service";
@@ -84,8 +84,17 @@ export class StoriesService {
             }
         }
     }
-    async getStoryByHash(storyHash: string) {
-        return (await readFile(resolve("stories/" + storyHash + ".html"))).toString();
+    async getStoryByHash(storyHash: string, jwtToken: string) {
+        const storyInDb = await this.storiesServiceDb.getStoryInfoByHash(storyHash);
+
+        if(storyInDb.permission === "private") {
+            if((await this.checkStoriesPermissionsAndReturn([storyInDb], jwtToken)).length) {
+                return (await readFile(resolve("stories/" + storyHash + ".html"))).toString();
+            }
+            throw new ForbiddenException();
+        } else {
+            return (await readFile(resolve("stories/" + storyHash + ".html"))).toString();
+        }
     }
     async getStoryInfoByHash(hash: string) {
         const serializeData = JSON.parse(JSON.stringify(await this.storiesServiceDb.getStoryInfoByHash(hash)));

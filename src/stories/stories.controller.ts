@@ -48,9 +48,10 @@ export class StoriesController {
     async getStoriesByTitleOrTheme(
         @Param("themeOrTitle") themeOrTitle: string,
         @Query("count", new ParseIntPipe()) count: number,
-        @Query("skip", new ParseIntPipe()) skip: number
+        @Query("skip", new ParseIntPipe()) skip: number,
+        @Req() req: Request
     ) {
-        return await this.storiesService.getStoriesByThemeOrTitle(themeOrTitle, count, skip);
+        return await this.storiesService.checkStoriesPermissionsAndReturn(await this.storiesService.getStoriesByThemeOrTitle(themeOrTitle, count, skip), req);
     }
 
     @UseGuards(AuthGuard)
@@ -110,8 +111,8 @@ export class StoriesController {
     }
 
     @Get(":hash")
-    async getStoryByHash(@Param("hash") hash: string) {
-        return { story: await this.storiesService.getStoryByHash(hash) };
+    async getStoryByHash(@Param("hash") hash: string, @Req() req: Request) {
+        return { story: await this.storiesService.getStoryByHash(hash, req.headers.authorization) };
     }
 }
 
